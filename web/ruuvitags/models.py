@@ -15,3 +15,7 @@ def is_json_deserializable(value):
 
 class Events(UpdatedCreatedMetaModel):
     data = models.TextField(blank=False, null=False, validators=[is_json_deserializable])
+
+
+class Sensors(UpdatedCreatedMetaModel):
+    name = models.TextField(blank=False, null=False)
