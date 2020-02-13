@@ -1,0 +1,4 @@
+ruuvitag-sensor==0.13.0
+Django==3.0.3
+djangorestframework==3.11.0
+psycopg2==2.8.4
