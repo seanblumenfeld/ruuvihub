@@ -14,14 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import include, path
-from django.conf.urls import url
+from rest_framework import routers
 
-from web.ruuvitags import views
+from web.ruuvitags.urls import router as ruuvitag_router
 
+router = routers.DefaultRouter()
+router.registry.extend(ruuvitag_router.registry)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'temperature/load$', views.CreateEventAPI.as_view(), name=views.CreateEventAPI.name),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+urlpatterns += router.urls

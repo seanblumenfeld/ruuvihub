@@ -1,19 +1,17 @@
-from rest_framework.exceptions import APIException
-from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ModelViewSet
 
-from web.ruuvitags.models import Events
-from web.ruuvitags.serializers import EventSerializer
-
-
-class PaymentsServiceException(APIException):
-    status_code = 400
-    default_detail = 'External Payment Service Error.'
-    default_code = 'external_payment_service_error'
+from web.ruuvitags.models import Events, Sensors
+from web.ruuvitags.serializers import EventSerializer, SensorSerializer
 
 
-class CreateEventAPI(CreateAPIView):
-    """Api to process a payment charge."""
-    name = 'temperature-load'
+class EventViewSet(ModelViewSet):
+    """API to save a Ruuvitag sensor's broadcast data."""
+    url_prefix = r'events'
     queryset = Events.objects.all()
     serializer_class = EventSerializer
-    permission_classes = []  # TODO
+
+
+class SensorViewSet(ModelViewSet):
+    url_prefix = r'sensors'
+    queryset = Sensors.objects.all()
+    serializer_class = SensorSerializer
