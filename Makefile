@@ -65,3 +65,7 @@ example-post-to-api:
 		--data '{"amount": "123.45", "token": "some-card-token"}' \
 		http://localhost:8000/payments/charge
 	@echo ""
+
+.PHONY: create-superuser
+create-superuser:
+	docker-compose run web bash -c "python manage.py createsuperuser"
