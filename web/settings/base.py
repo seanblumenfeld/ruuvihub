@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.ruuvitags',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./web/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'postgres'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        'NAME': os.getenv('POSTGRES_DB', 'app'),
+        'USER': os.getenv('POSTGRES_USER', 'app'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'CHANGEME'),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
         'PORT': 5432,
     }

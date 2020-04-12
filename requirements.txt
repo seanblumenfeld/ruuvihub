@@ -1,5 +1,5 @@
-django-celery-beat==1.6.0
-Django==3.0.3
+django-celery-beat==2.0.0
+Django==3.0.5
 djangorestframework==3.11.0
-psycopg2==2.8.4
-ruuvitag-sensor==0.13.0
+psycopg2==2.8.5
+ruuvitag-sensor==1.0.1
