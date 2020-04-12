@@ -15,14 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import TemplateView
 from rest_framework import routers
+from rest_framework.schemas import get_schema_view
 
 from web.ruuvitags.urls import router as ruuvitag_router
 
 router = routers.DefaultRouter()
 router.registry.extend(ruuvitag_router.registry)
 
+
 urlpatterns = [
+    path(
+        'api-specs/',
+        get_schema_view(title='RuuviHub API Spec', version='1.0.0'),
+        name='api-specs'
+    ),
+    path('api-docs/', TemplateView.as_view(
+        template_name='redoc.html',
+        extra_context={'schema_url': 'api-specs'}
+    ), name='api-docs'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

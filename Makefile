@@ -38,8 +38,8 @@ up-detached: build
 	@$(MAKE) down
 	docker-compose up -d
 	@echo "TODO: implement a service readiness check here"
-	@echo "sleeping for 10 seconds..."
-	@sleep 10
+	@echo "sleeping for 7 seconds..."
+	@sleep 7
 
 .PHONY: down
 down:
@@ -50,22 +50,9 @@ make-migrations:
 	docker-compose run web bash -c "python manage.py makemigrations"
 
 .PHONY: test
-test: build
-	docker-compose run web pytest
+test:
+	docker-compose run web bash -c "pytest"
 
 .PHONY: lint
 lint: build
 	docker-compose run web flake8
-
-.PHONY: example-post-to-api
-example-post-to-api:
-	@curl \
-		--request POST \
-		--header "Content-Type: application/json" \
-		--data '{"amount": "123.45", "token": "some-card-token"}' \
-		http://localhost:8000/payments/charge
-	@echo ""
-
-.PHONY: create-superuser
-create-superuser:
-	docker-compose run web bash -c "python manage.py createsuperuser"
