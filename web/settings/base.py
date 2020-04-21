@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -31,6 +30,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+RUUVIHUB_APPS = [
+    'web.core',
+    'web.ruuvitags',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web.ruuvitags',
     'rest_framework',
-]
+    'huey.contrib.djhuey',
+] + RUUVIHUB_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,9 +91,6 @@ DATABASES = {
     }
 }
 
-if 'test' in sys.argv:
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -129,3 +130,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {}
+
+HUEY = {
+    'huey_class': 'huey.MemoryHuey',
+    'utc': True,
+    'name': 'ruuvihub-huey',
+    'always_eager': False,
+    'consumer': {'workers': 1},
+    'immediate': DEBUG,
+}
+
+SENSOR_MACS = ['FE:F6:ED:CF:47:F3']

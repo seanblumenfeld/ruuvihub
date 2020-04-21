@@ -15,6 +15,9 @@ RUN pip install -r /requirements.txt
 ADD requirements.dev.txt /requirements.dev.txt
 RUN pip install -r /requirements.dev.txt
 
+# TODO: remove once available in pypi
+RUN pip install --upgrade git+git://github.com/ttu/ruuvitag-sensor.git@3dac6fc3843b258a8282f2909a9c74f4654d76b7
+
 ADD . /app
 WORKDIR /app
 

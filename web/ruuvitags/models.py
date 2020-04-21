@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-from web.common.abstract_models import BaseMetaModel
+from web.core.abstract_models import BaseMetaModel
 
 
 def is_json_deserializable(value):
@@ -23,7 +23,7 @@ def is_sensor_id(value):
 
 
 class Events(BaseMetaModel):
-    data = models.TextField(blank=False, null=False, validators=[is_json_deserializable])
+    data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
 
 
 class Sensors(BaseMetaModel):
@@ -35,4 +35,3 @@ class Sensors(BaseMetaModel):
         validators=[MinLengthValidator(17), is_sensor_id]
     )
     data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
-
