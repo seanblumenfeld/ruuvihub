@@ -5,7 +5,11 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings.base')
+    if sys.argv[1] == 'test':
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings.test')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings.dev')
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

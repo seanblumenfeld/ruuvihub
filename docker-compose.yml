@@ -2,7 +2,7 @@ version: '3'
 
 services:
   
-  postgres:
+  db:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -14,7 +14,7 @@ services:
 
   web:
     build: .
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "./startup.sh"
     restart: always
     volumes:
       - .:/app
@@ -23,7 +23,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      - db
 
 volumes:
   postgres_data:

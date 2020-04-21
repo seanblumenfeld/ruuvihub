@@ -35,7 +35,7 @@ class SensorViewSetTests(BaseTestCase):
         name = 'new-sensor'
         response = self.client.post(
             path=self.path,
-            data={'name': name, 'data': '{}', 'sensor_id': 'DU:MM:YD:AT:A9:3D'}
+            data={'name': name, 'data': '{}', 'sensor_id': 'DU:MM:YD:AT:A9:3D'},
         )
         self.assertResponse201(response)
         self.assertEqual(response.data['name'], name)

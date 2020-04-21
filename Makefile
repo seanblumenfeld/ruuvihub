@@ -54,5 +54,5 @@ test:
 	docker-compose run web bash -c "pytest"
 
 .PHONY: lint
-lint: build
+lint:
 	docker-compose run web flake8
