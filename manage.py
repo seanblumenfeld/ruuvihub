@@ -7,17 +7,20 @@ import sys
 import environ
 from django.core.management import execute_from_command_line
 
-ENV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+
+def load_env(env_name):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    env_file = os.path.join(base_dir, f'.{env_name}.env')
+    environ.Env.read_env(env_file=env_file)
+    os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env_name}'
 
 
 def main():
-    environ.Env.read_env(env_file=ENV_FILE)
-
     if sys.argv[1] == 'test':
         logging.disable(logging.CRITICAL)
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'web.settings.test'
+        load_env(env_name='test')
     else:
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'web.settings.dev'
+        load_env(env_name='dev')
 
     execute_from_command_line(sys.argv)
 

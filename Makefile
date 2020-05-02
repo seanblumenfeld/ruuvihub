@@ -12,9 +12,10 @@ help:
 clean:
 	-find . -type d -name '__pycache__' -exec rm -rf {} ';'
 
+# TODO: remove?
 .PHONY: create-env-file
 create-env-files:
-ifeq ("$(wildcard .env)","")
+ifeq ("$(wildcard .dev.env)","")
 	@echo "POSTGRES_DB=app" > .env
 	@echo "POSTGRES_USER=app" >> .env
 	@echo "POSTGRES_PASSWORD=CHANGEME" >> .env
