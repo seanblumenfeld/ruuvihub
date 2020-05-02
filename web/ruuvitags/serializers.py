@@ -1,15 +1,15 @@
 from rest_framework.serializers import ModelSerializer
 
-from web.ruuvitags.models import Events, Sensors
+from web.ruuvitags.models import Event, Sensor
 
 
 class EventSerializer(ModelSerializer):
     class Meta:
-        model = Events
+        model = Event
         fields = '__all__'
 
 
 class SensorSerializer(ModelSerializer):
     class Meta:
-        model = Sensors
+        model = Sensor
         fields = '__all__'
