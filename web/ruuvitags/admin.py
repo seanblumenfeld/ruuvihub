@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from web.ruuvitags.models import Events, Sensors
+from web.ruuvitags.models import Event, Sensor
 
 
 class EventsAdmin(admin.ModelAdmin):
@@ -11,5 +11,5 @@ class SensorsAdmin(admin.ModelAdmin):
     fields = ['name', 'sensor_id', 'data']
 
 
-admin.site.register(Events, EventsAdmin)
-admin.site.register(Sensors, SensorsAdmin)
+admin.site.register(Event, EventsAdmin)
+admin.site.register(Sensor, SensorsAdmin)

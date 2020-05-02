@@ -11,9 +11,9 @@ RUN apt-get update && \
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-# TODO: move to dev docker image for local development
-ADD requirements.dev.txt /requirements.dev.txt
-RUN pip install -r /requirements.dev.txt
+# TODO: move to test docker image for testing
+ADD requirements.test.txt /requirements.test.txt
+RUN pip install -r /requirements.test.txt
 
 # TODO: remove once available in pypi
 RUN pip install --upgrade git+git://github.com/ttu/ruuvitag-sensor.git@3dac6fc3843b258a8282f2909a9c74f4654d76b7

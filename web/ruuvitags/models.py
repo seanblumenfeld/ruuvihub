@@ -22,11 +22,11 @@ def is_sensor_id(value):
         raise ValidationError("Expected string of the form 'DU:MM:YD:AT:A9:3D'")
 
 
-class Events(BaseMetaModel):
+class Event(BaseMetaModel):
     data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
 
 
-class Sensors(BaseMetaModel):
+class Sensor(BaseMetaModel):
     name = models.TextField(
         unique=True, blank=False, null=False, help_text='A user editable identifier for a sensor.'
     )

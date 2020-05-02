@@ -1,18 +1,19 @@
 from rest_framework.reverse import reverse
 
-from web.ruuvitags.views import EventViewSet, SensorViewSet
+from web.tests.factories.event import EventFactory
 from web.tests.helpers import BaseTestCase
 
 
-class EventViewSetTests(BaseTestCase):
+class EventCreateTests(BaseTestCase):
 
-    def setUp(self):
-        super().setUp()
-        self.path = reverse(f'{EventViewSet.url_prefix}-list')
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.path = reverse('events-list')
 
     def test_can_create_event(self):
         response = self.client.post(path=self.path, data={'data': '{}'})
-        self.assertResponse201(response, data={})
+        self.assertResponse201(response)
 
     def test_400_when_no_data_provided(self):
         response = self.client.post(path=self.path)
@@ -25,11 +26,26 @@ class EventViewSetTests(BaseTestCase):
         self.assertEqual(response.data['data'][0].code, 'invalid')
 
 
+class EventDetailTests(BaseTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.event = EventFactory()
+        cls.path = reverse('events-detail', args=(cls.event.id,))
+
+    def test_can_get_event(self):
+        response = self.client.get(path=self.path)
+        self.assertResponse200(
+            response, data_contains={'id': self.event.id_str, 'data': self.event.data}
+        )
+
+
 class SensorViewSetTests(BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.path = reverse(f'{SensorViewSet.url_prefix}-list')
+        self.path = reverse('sensors-list')
 
     def test_can_create_sensor(self):
         name = 'new-sensor'

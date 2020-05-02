@@ -1,14 +1,17 @@
 import json
-import logging
 
+import structlog
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.utils import encoders
 from ruuvitag_sensor.ruuvi import RuuviTagSensor
 
-from web.ruuvitags.models import Sensors, Events
-from web.ruuvitags.serializers import SensorSerializer
+from web.ruuvitags.models import Sensor
+from web.ruuvitags.serializers import SensorSerializer, EventSerializer
+
+logger = structlog.getLogger(settings.APP_LOGGER)
 
 
 class RuuvitagsServiceException(APIException):
@@ -23,8 +26,8 @@ def find_and_save_sensors(sensor_adapter: RuuviTagSensor = RuuviTagSensor):
     new_sensors = []
     for sensor_id, sensor_data in ruuvitags.items():
         try:
-            Sensors.objects.get(sensor_id=sensor_id)
-        except Sensors.DoesNotExist:
+            Sensor.objects.get(sensor_id=sensor_id)
+        except Sensor.DoesNotExist:
             new_sensors.append({
                 'name': sensor_id,
                 'sensor_id': sensor_id,
@@ -38,6 +41,7 @@ def find_and_save_sensors(sensor_adapter: RuuviTagSensor = RuuviTagSensor):
 
 
 def save_sensor_event(mac, data):
-    logging.info(f'Received sensor data for {mac}')
-    if data:
-        Events.objects.create(data=json.dumps(data, cls=encoders.JSONEncoder))
+    logger.info(f'Received sensor data for {mac}')
+    serializer = EventSerializer(data={'data': json.dumps(data, cls=encoders.JSONEncoder)})
+    serializer.is_valid(raise_exception=True)
+    serializer.save()

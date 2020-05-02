@@ -8,5 +8,9 @@ class BaseMetaModel(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
 
+    @property
+    def id_str(self):
+        return str(self.id)
+
     class Meta:
         abstract = True
