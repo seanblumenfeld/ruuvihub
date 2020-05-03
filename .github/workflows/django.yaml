@@ -17,10 +17,10 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
 
     services:
-      postgres:
+      db:
         image: postgres
         env:
           POSTGRES_USER: app
