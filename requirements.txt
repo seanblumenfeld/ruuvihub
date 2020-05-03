@@ -6,3 +6,4 @@ ruuvitag-sensor==1.1.0
 bleson==0.0.10
 django-environ==0.4.5
 structlog==20.1.0
+simple-ruuvitag==0.0.5
