@@ -27,4 +27,3 @@ class SimpleSaveSensorDataSensorsTests(BaseTestCase):
         # TODO: Fix
         # self.log_capture.check(('root', 'DEBUG', 'a message'))
         self.assertEqual(Event.objects.count(), 1)
-

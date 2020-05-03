@@ -1,5 +1,3 @@
-import uuid
-
 import factory
 
 from web.ruuvitags.models import Sensor
