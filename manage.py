@@ -8,20 +8,27 @@ import environ
 from django.core.management import execute_from_command_line
 
 
-def load_env(env_name):
+def load_env(env):
+    if env == 'test':
+        logging.disable(logging.CRITICAL)
+
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    env_file = os.path.join(base_dir, f'.{env_name}.env')
+    env_file = os.path.join(base_dir, f'.{env}.env')
     environ.Env.read_env(env_file=env_file)
-    os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env_name}'
+    os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env}'
+
+
+def get_env():
+    if sys.argv[1] == 'test':
+        if os.getenv('ENV', 'test') != 'test':
+            raise RuntimeError('Tests must run using test ENV.')
+        return 'test'
+    return os.getenv('ENV', 'dev')
 
 
 def main():
-    if sys.argv[1] == 'test':
-        logging.disable(logging.CRITICAL)
-        load_env(env_name='test')
-    else:
-        load_env(env_name='dev')
-
+    env = get_env()
+    load_env(env)
     execute_from_command_line(sys.argv)
 
 
