@@ -24,6 +24,8 @@ if __name__ == '__main__':
     )
     ruuvi_client.start()
     sleep(4)
-    logger.debug('RESTART')
-    ruuvi_client.rescan()
-    sleep(1000)
+
+    while True:
+        logger.debug('RESTART')
+        ruuvi_client.rescan()
+        sleep(100)

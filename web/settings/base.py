@@ -91,9 +91,6 @@ DATABASES = {
         'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
-print(f"hooooost: {BASE_DIR}")
-print(f"hooooost: {os.getenv('POSTGRES_HOST')}")
-print(f"hooooost: {os.environ['DJANGO_SETTINGS_MODULE']}")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

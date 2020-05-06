@@ -12,6 +12,10 @@ help:
 clean:
 	-find . -type d -name '__pycache__' -exec rm -rf {} ';'
 
+.PHONY: services
+watch-sensor-events:
+	python services/ruuvitags/watch_sensor_events.py &
+
 # TODO: remove?
 .PHONY: create-env-file
 create-env-files:
