@@ -92,7 +92,8 @@ __pypackages__/
 *.sage.py
 
 # Environments
-.dev.env
+*.env
+!.test.env
 .venv
 env/
 venv/

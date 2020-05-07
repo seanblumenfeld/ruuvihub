@@ -7,28 +7,46 @@ import sys
 import environ
 from django.core.management import execute_from_command_line
 
+logger = logging.getLogger(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def load_env(env):
-    if env == 'test':
+
+def load_env(env_name, settings_path):
+    if settings_path == 'web.settings.test':
         logging.disable(logging.CRITICAL)
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    env_file = os.path.join(base_dir, f'.{env}.env')
+    env_file = os.path.join(BASE_DIR, f'.{env_name}.env')
     environ.Env.read_env(env_file=env_file)
-    os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env}'
+    os.environ['DJANGO_SETTINGS_MODULE'] = settings_path
 
 
-def get_env():
+def get_env_name():
+    env = os.getenv('ENV')
+
+    if env:
+        return env
+
     if sys.argv[1] == 'test':
-        if os.getenv('ENV', 'test') != 'test':
-            raise RuntimeError('Tests must run using test ENV.')
-        return 'test'
-    return os.getenv('ENV', 'dev')
+        if env != 'test':
+            logger.info("Running tests in non test ENV. Setting test ENV to continue.")
+        if os.getenv('DOCKER'):
+            return 'test'
+        else:
+            return 'local'
+
+    raise RuntimeError('Unknown ENV.')
+
+
+def get_settings_path(env_name):
+    if env_name == 'local':
+        return 'web.settings.test'
+    return f'web.settings.{env_name}'
 
 
 def main():
-    env = get_env()
-    load_env(env)
+    env_name = get_env_name()
+    settings_path = get_settings_path(env_name)
+    load_env(env_name, settings_path)
     execute_from_command_line(sys.argv)
 
 
