@@ -10,7 +10,7 @@ from web.core.abstract_models import BaseMetaModel
 
 def is_json_deserializable(value):
     try:
-        json.loads(value)
+        json.loads(json.dumps(value))
     except json.decoder.JSONDecodeError as e:
         raise ValidationError(e.args)
 
@@ -35,3 +35,7 @@ class Sensor(BaseMetaModel):
         validators=[MinLengthValidator(17), is_sensor_id]
     )
     data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
+
+    @property
+    def mac(self):
+        return self.sensor_id
