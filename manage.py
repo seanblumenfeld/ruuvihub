@@ -16,6 +16,7 @@ def load_env(env_name):
     env_file = os.path.join(BASE_DIR, f'.{env_name}.env')
     environ.Env.read_env(env_file=env_file)
     os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env_name}'
+    return env_file, os.environ['DJANGO_SETTINGS_MODULE']
 
 
 def get_env_name():
@@ -25,6 +26,7 @@ def get_env_name():
         return env
 
     if sys.argv[1] in TEST_ENV_COMMANDS:
+        logger.warning('Disabling all logging.')
         logging.disable(logging.CRITICAL)
 
         if env != 'test':
@@ -40,7 +42,9 @@ def get_env_name():
 
 def main():
     env_name = get_env_name()
-    load_env(env_name)
+    env_file, settings_module = load_env(env_name)
+    logger.info(f'Using env file: {env_file}')
+    logger.info(f'Using settings module: {settings_module}')
     execute_from_command_line(sys.argv)
 
 

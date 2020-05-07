@@ -1,4 +1,7 @@
-FROM python:3.7.6
+FROM python:3.7.6 AS base
+
+################ prod
+FROM base as prod
 
 ENV PYTHONUNBUFFERED 1
 
@@ -22,3 +25,9 @@ ADD . /app
 WORKDIR /app
 
 ENV PYTHONPATH=/app:$PYTHONPATH
+
+################ debug
+FROM prod as debug
+
+ADD requirements.dev-tools.txt /requirements.dev-tools.txt
+RUN pip install -r /requirements.dev-tools.txt

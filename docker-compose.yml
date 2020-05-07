@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   
@@ -12,10 +12,31 @@ services:
     ports:
       - "5432:5432"
 
-  web:
-    build: .
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
     command: bash -c "./startup.sh"
     restart: always
+    volumes:
+      - .:/app
+    env_file:
+      - ".${ENV:-dev}.env"
+    environment:
+      - DOCKER=1
+      - ENV=${ENV}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  web-debug:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: debug
+    command: bash -c "./startup.sh"
     volumes:
       - .:/app
     env_file:

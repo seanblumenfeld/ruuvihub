@@ -135,6 +135,10 @@ APP_LOGGER = 'web.core'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
     'formatters': {
         'json_formatter': {
             '()': structlog.stdlib.ProcessorFormatter,
