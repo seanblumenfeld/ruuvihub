@@ -12,18 +12,13 @@ class EventCreateTests(BaseTestCase):
         cls.path = reverse('events-list')
 
     def test_can_create_event(self):
-        response = self.client.post(path=self.path, data={'data': '{}'})
+        response = self.client.post(path=self.path, data={'data': {}})
         self.assertResponse201(response)
 
     def test_400_when_no_data_provided(self):
         response = self.client.post(path=self.path)
         self.assertResponse400(response)
         self.assertEqual(response.data['data'][0].code, 'required')
-
-    def test_400_for_invalid_json_data(self):
-        response = self.client.post(path=self.path, data={'data': '{'})
-        self.assertResponse400(response)
-        self.assertEqual(response.data['data'][0].code, 'invalid')
 
 
 class EventDetailTests(BaseTestCase):

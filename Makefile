@@ -14,15 +14,4 @@ clean:
 
 .PHONY: services
 watch-sensor-events:
-	python services/ruuvitags/watch_sensor_events.py &
-
-# TODO: remove?
-.PHONY: create-env-file
-create-env-files:
-ifeq ("$(wildcard .dev.env)","")
-	@echo "POSTGRES_DB=app" > .env
-	@echo "POSTGRES_USER=app" >> .env
-	@echo "POSTGRES_PASSWORD=CHANGEME" >> .env
-	@echo "POSTGRES_HOST=postgres" >> .env
-	@echo "POSTGRES_DB=app" >> .env
-endif
+	python services/ruuvitags/watch_sensor_events.py
