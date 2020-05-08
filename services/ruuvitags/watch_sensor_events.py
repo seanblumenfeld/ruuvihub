@@ -29,7 +29,7 @@ def post_sensor_event(mac, data):
 def get_sensor_mac_addresses():
     response = requests.get(SENSOR_API)
     logger.debug(f'Response: {response.status_code}')
-    return [s['sensor_id'] for s in response.json()]
+    return [s['mac_address'] for s in response.json()]
 
 
 if __name__ == '__main__':

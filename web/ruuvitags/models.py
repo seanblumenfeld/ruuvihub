@@ -15,7 +15,7 @@ def is_json_deserializable(value):
         raise ValidationError(e.args)
 
 
-def is_sensor_id(value):
+def is_mac_address(value):
     """Example - 'DU:MM:YD:AT:A9:3D'"""
     array = value.split(':')
     if len(array) != 6:
@@ -30,12 +30,7 @@ class Sensor(BaseMetaModel):
     name = models.TextField(
         unique=True, blank=False, null=False, help_text='A user editable identifier for a sensor.'
     )
-    sensor_id = models.CharField(
+    mac_address = models.CharField(
         unique=True, blank=False, null=False, max_length=17,
-        validators=[MinLengthValidator(17), is_sensor_id]
+        validators=[MinLengthValidator(17), is_mac_address]
     )
-    data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
-
-    @property
-    def mac(self):
-        return self.sensor_id

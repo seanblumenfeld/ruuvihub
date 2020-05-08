@@ -13,7 +13,7 @@ class Tests(TestCase):
             'updated': '2020-05-07T13:20:50.668580Z',
             'created': '2020-05-07T13:20:50.668634Z',
             'name': 'My first sensor',
-            'sensor_id': 'FE:F6:ED:CF:47:F3',
+            'mac_address': 'FE:F6:ED:CF:47:F3',
         }
     ]
 

@@ -24,13 +24,13 @@ def find_and_save_sensors(sensor_adapter: RuuviTagSensor = RuuviTagSensor):
     ruuvitags = sensor_adapter.find_ruuvitags()
 
     new_sensors = []
-    for sensor_id, sensor_data in ruuvitags.items():
+    for mac_address, sensor_data in ruuvitags.items():
         try:
-            Sensor.objects.get(sensor_id=sensor_id)
+            Sensor.objects.get(mac_address=mac_address)
         except Sensor.DoesNotExist:
             new_sensors.append({
-                'name': sensor_id,
-                'sensor_id': sensor_id,
+                'name': mac_address,
+                'mac_address': mac_address,
                 'data': json.dumps(sensor_data),
             })
 
