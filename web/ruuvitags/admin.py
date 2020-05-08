@@ -8,7 +8,7 @@ class EventsAdmin(admin.ModelAdmin):
 
 
 class SensorsAdmin(admin.ModelAdmin):
-    fields = ['name', 'sensor_id', 'data']
+    fields = ['name', 'mac_address']
 
 
 admin.site.register(Event, EventsAdmin)
