@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import requests_mock
 
-from services.ruuvitags.watch_sensor_events import save_sensor_event, EVENT_API, SENSOR_API, \
+from services.ruuvitags.watch_sensor_events import post_sensor_event, EVENT_API, SENSOR_API, \
     get_sensor_mac_addresses
 
 
@@ -20,7 +20,7 @@ class Tests(TestCase):
     @requests_mock.Mocker()
     def test_post_to_events_api(self, _requests_mock):
         _requests_mock.post(EVENT_API, status_code=201)
-        save_sensor_event(mac='fake-mac', data='json-data')
+        post_sensor_event(mac='fake-mac', data='json-data')
         self.assertTrue(_requests_mock.called)
 
     @requests_mock.Mocker()

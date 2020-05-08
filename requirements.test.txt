@@ -9,3 +9,4 @@ pytest-django==3.9.0
 pytest-sugar==0.9.3
 pytest==5.4.1
 requests==2.23.0
+requests-mock==1.8.0

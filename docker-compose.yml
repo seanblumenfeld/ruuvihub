@@ -12,17 +12,17 @@ services:
     ports:
       - "5432:5432"
 
-  web-prod:
+  web-test:
     build:
       context: .
       dockerfile: Dockerfile
-      target: prod
+      target: test
     command: bash -c "./startup.sh"
     restart: always
     volumes:
       - .:/app
     env_file:
-      - ".${ENV:-dev}.env"
+      - ".${ENV:-test}.env"
     environment:
       - DOCKER=1
       - ENV=${ENV}
