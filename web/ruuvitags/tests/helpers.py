@@ -19,3 +19,19 @@ FakeRuuviTagSensor.find_ruuvitags.return_value = {
         'temperature': 24.0
     }
 }
+example_df_5 = {
+    "data_format": 5,
+    "humidity": 30.27,
+    "temperature": 26.24,
+    "pressure": 1013.49,
+    "acceleration": 990.1030249423542,
+    "acceleration_x": 56,
+    "acceleration_y": -32,
+    "acceleration_z": 988,
+    "tx_power": 4,
+    "battery": 3193,
+    "movement_counter": 21,
+    "measurement_sequence_number": 963,
+    "mac": "fef6edcf47f3",
+    "_updated_at": "2020-05-08T17:43:57.695572"
+}

@@ -26,7 +26,7 @@ SECRET_KEY = '3^55fjtw5$$78z8w(3oo6io4$=)86%^_#2)$qb)4!txe+y=&e+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.getenv('DJANGO_HOST')]
+ALLOWED_HOSTS = ['localhost', '0.0.0.0']
 
 
 # Application definition
@@ -199,3 +199,5 @@ HUEY = {
 }
 
 REST_FRAMEWORK['TEST_REQUEST_DEFAULT_FORMAT'] = 'json'
+
+UNKNOWN_SENSOR_ID = 'ba68f421-fef3-4d0d-b647-156c510caf5a'

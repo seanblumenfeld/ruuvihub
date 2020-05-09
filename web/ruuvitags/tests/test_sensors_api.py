@@ -36,7 +36,6 @@ class SensorViewSetTests(BaseTestCase):
     def test_400_when_params_not_provided(self):
         response = self.client.post(path=self.path)
         self.assertResponse400(response)
-        self.assertEqual(response.data['name'][0].code, 'required')
         self.assertEqual(response.data['mac_address'][0].code, 'required')
 
     def test_400_mac_address_invalid(self):

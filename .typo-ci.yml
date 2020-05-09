@@ -5,5 +5,6 @@ dictionaries:
 excluded_words:
   - ruuvihub
   - ruuvitags
+  - ruuvi
 
 spellcheck_filenames: true
