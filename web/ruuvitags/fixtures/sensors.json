@@ -1,0 +1,3 @@
+[
+  {"model": "ruuvitags.Sensor", "pk": "ba68f421-fef3-4d0d-b647-156c510caf5a", "fields": {"name": "Unknown Sensor", "mac_address":  "UN:KN:OW:N0:00:00", "created": "2020-03-12T11:17:26.369Z", "updated": "2020-03-12T11:17:26.369Z"}}
+]

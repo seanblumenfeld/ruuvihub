@@ -22,22 +22,19 @@ SENSOR_API = f'{BASE_URI}sensors/'
 
 def post_sensor_event(mac, data):
     logger.debug(f'Received sensor data for {mac}')
-    response = requests.post(EVENT_API, json={'data': json.dumps(data, cls=encoders.JSONEncoder)})
+    response = requests.post(
+        EVENT_API,
+        json={
+            'data': json.dumps(data, cls=encoders.JSONEncoder),
+            'mac_address': mac,
+        }
+    )
     logger.debug(f'Response: {response.status_code}')
-
-
-def get_sensor_mac_addresses():
-    response = requests.get(SENSOR_API)
-    logger.debug(f'Response: {response.status_code}')
-    return [s['mac_address'] for s in response.json()]
 
 
 if __name__ == '__main__':
     # TODO: get rid of this and run via supervisord or similar
-    mac_addresses = get_sensor_mac_addresses()
-    ruuvi_client = RuuviTagClient(
-        callback=post_sensor_event, mac_addresses=mac_addresses
-    )
+    ruuvi_client = RuuviTagClient(callback=post_sensor_event)
     ruuvi_client.start()
     sleep(4)
 
