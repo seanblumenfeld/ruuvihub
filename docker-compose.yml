@@ -6,9 +6,10 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     restart: always
     env_file:
-      - ".${ENV:-dev}.env"
+      - "environments/.${ENV:-dev}.env"
     ports:
       - "5432:5432"
 
@@ -17,12 +18,12 @@ services:
       context: .
       dockerfile: Dockerfile
       target: test
-    command: bash -c "./startup.sh"
+    command: bash -c "./scripts/startup.sh"
     restart: always
     volumes:
       - .:/app
     env_file:
-      - ".${ENV:-test}.env"
+      - "environments/.${ENV:-test}.env"
     environment:
       - ENV=${ENV}
     ports:
@@ -35,11 +36,11 @@ services:
       context: .
       dockerfile: Dockerfile
       target: debug
-    command: bash -c "./startup.sh"
+    command: bash -c "./scripts/startup.sh"
     volumes:
       - .:/app
     env_file:
-      - ".${ENV:-dev}.env"
+      - "environments/.${ENV:-dev}.env"
     environment:
       - ENV=${ENV:-dev}
     ports:
@@ -47,5 +48,18 @@ services:
     depends_on:
       - db
 
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - ENV=${ENV:-dev}
+    volumes:
+    - grafana-data:/var/lib/grafana
+    - ./grafana.ini:/etc/grafana/grafana.ini
+    depends_on:
+      - db
+
 volumes:
   postgres_data:
+  grafana-data:

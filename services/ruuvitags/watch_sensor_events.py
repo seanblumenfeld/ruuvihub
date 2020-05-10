@@ -11,7 +11,7 @@ from simple_ruuvitag import RuuviTagClient
 logger = structlog.getLogger(__name__)
 
 # TODO: implement .test.env for tests?
-env_file = os.path.join('.dev.env')
+env_file = os.path.join('environments', '.dev.env')
 environ.Env.read_env(env_file=env_file)
 
 # TODO: parameterize? Move to settings?
