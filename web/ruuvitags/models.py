@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.timezone import now
 
 from web.core.abstract_models import BaseMetaModel
+from web.settings.base import DECIMAL_PRECISION
 
 
 def is_json_deserializable(value):
@@ -21,6 +22,16 @@ def is_mac_address(value):
     array = value.split(':')
     if len(array) != 6:
         raise ValidationError("Expected string of the form 'DU:MM:YD:AT:A9:3D'")
+
+
+def is_mac(value):
+    """Example - 'dummydata93d'"""
+    if len(value) != 12:
+        raise ValidationError("Expected string of the form 'dummydata93d'")
+
+
+def mac_to_mac_address(mac):
+    return ':'.join([mac[i:i+2].upper() for i in range(0, len(mac), 2)])
 
 
 def get_sensor_name():
@@ -39,4 +50,31 @@ class Sensor(BaseMetaModel):
 
 class Event(BaseMetaModel):
     data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
-    sensor = models.ForeignKey(Sensor, related_name='events', on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensor, related_name='events', on_delete=models.PROTECT)
+
+
+class StructuredEvent(BaseMetaModel):
+
+    class DataFormat(models.IntegerChoices):
+        """Reference: https://github.com/ruuvi/ruuvi-sensor-protocols """
+        FIVE = 5
+
+    event = models.ForeignKey(Event, on_delete=models.PROTECT)
+    data_format = models.IntegerField(choices=DataFormat.choices, blank=False)
+    humidity = models.DecimalField(blank=False, **DECIMAL_PRECISION)
+    temperature = models.DecimalField(blank=False, **DECIMAL_PRECISION)
+    pressure = models.DecimalField(blank=False, **DECIMAL_PRECISION)
+    acceleration = models.DecimalField(blank=False, **DECIMAL_PRECISION)
+    acceleration_x = models.IntegerField(blank=False)
+    acceleration_y = models.IntegerField(blank=False)
+    acceleration_z = models.IntegerField(blank=False)
+    tx_power = models.IntegerField(blank=False)
+    battery = models.IntegerField(blank=False)
+    movement_counter = models.IntegerField(blank=False)
+    measurement_sequence_number = models.IntegerField(blank=False)
+    mac = models.CharField(max_length=12, validators=[is_mac])
+    # TODO: include _updated_at field from ruuvitag event?
+
+    @property
+    def mac_address(self):
+        return mac_to_mac_address(str(self.mac))

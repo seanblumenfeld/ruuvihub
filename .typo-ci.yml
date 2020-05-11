@@ -2,9 +2,14 @@ dictionaries:
   - en
   - en_GB
 
+excluded_files:
+  - "web/settings/*"
+
 excluded_words:
-  - ruuvihub
-  - ruuvitags
+  - huey
   - ruuvi
+  - ruuvihub
+  - ruuvitag
+  - ruuvitags
 
 spellcheck_filenames: true

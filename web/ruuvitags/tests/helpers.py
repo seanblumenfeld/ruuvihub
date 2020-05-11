@@ -19,7 +19,8 @@ FakeRuuviTagSensor.find_ruuvitags.return_value = {
         'temperature': 24.0
     }
 }
-example_df_5 = {
+
+DATA_FORMAT_5_EXAMPLE = {
     "data_format": 5,
     "humidity": 30.27,
     "temperature": 26.24,
@@ -32,6 +33,6 @@ example_df_5 = {
     "battery": 3193,
     "movement_counter": 21,
     "measurement_sequence_number": 963,
-    "mac": "fef6edcf47f3",
+    "mac": "dummydata93d",
     "_updated_at": "2020-05-08T17:43:57.695572"
 }

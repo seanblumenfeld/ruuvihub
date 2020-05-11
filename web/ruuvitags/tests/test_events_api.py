@@ -12,7 +12,10 @@ class EventCreateTests(BaseTestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.path = reverse('events-list')
-        cls.event_data = {
+
+    def setUp(self):
+        super().setUp()
+        self.event_data = {
             'data': {},
             'mac_address': 'DU:MM:YD:AT:AX:XX'
         }

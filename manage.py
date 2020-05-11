@@ -9,7 +9,8 @@ from django.core.management import execute_from_command_line
 
 logger = logging.getLogger(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEST_ENV_COMMANDS = ['test', 'check']
+COMMANDS_TO_DEFAULT_TO_DEV_ENV = ['makemigrations', 'migrate']
+COMMANDS_TO_DEFAULT_TO_TEST_ENV = ['test', 'check']
 
 
 def load_env(env_name):
@@ -25,19 +26,20 @@ def get_env_name():
     if env:
         return env
 
-    if sys.argv[1] in TEST_ENV_COMMANDS:
+    if sys.argv[1] in COMMANDS_TO_DEFAULT_TO_TEST_ENV:
+        if env != 'test':
+            logger.warning("Running tests in non test ENV. Setting ENV to test to continue.")
         logger.warning('Disabling all logging.')
         logging.disable(logging.CRITICAL)
+        return 'test'
 
-        if env != 'test':
-            logger.info("Running tests in non test ENV. Setting test ENV to continue.")
-        if os.getenv('DOCKER'):
-            return 'test'
-        else:
-            return 'local'
+    if sys.argv[1] in COMMANDS_TO_DEFAULT_TO_DEV_ENV:
+        if env != 'dev':
+            logger.warning(f"Running '{sys.argv[1]}' in non dev ENV. Setting ENV to dev to "
+                           f"continue.")
+        return 'dev'
 
-    logger.info('ENV not set, using local')
-    return 'local'
+    raise RuntimeError(f'ENV not set. Cannot run {sys.argv}.')
 
 
 def main():
