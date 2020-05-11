@@ -1,20 +1,25 @@
 from django.contrib import admin
 
-from web.ruuvitags.models import Event, Sensor, StructuredEvent
+from web.ruuvitags.models import Event, Sensor
 
 
+@admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    fields = ['data', 'created', 'updated']
-    readonly_fields = ['id', 'created', 'updated']
-    list_display = ['id', 'created', 'updated']
+    fields = [
+        'data_format', 'mac', 'humidity', 'temperature', 'pressure', 'acceleration',
+        'acceleration_x', 'acceleration_y', 'acceleration_z', 'tx_power', 'battery',
+        'movement_counter', 'measurement_sequence_number', 'created', 'updated'
+    ]
+    readonly_fields = [
+        'data_format', 'humidity', 'temperature', 'pressure', 'acceleration', 'acceleration_x',
+        'acceleration_y', 'acceleration_z', 'tx_power', 'battery', 'movement_counter',
+        'measurement_sequence_number', 'mac', 'created', 'updated'
+    ]
+    list_display = ['id', 'mac_address', 'data_format', 'temperature', 'created']
     ordering = ['-created']
 
 
-class StructuredEventAdmin(admin.ModelAdmin):
-    readonly_fields = ['id', 'created', 'updated']
-    list_display = ['id', 'temperature', 'created', 'updated']
-
-
+@admin.register(Sensor)
 class SensorAdmin(admin.ModelAdmin):
     fields = ['name', 'mac_address', 'created', 'updated']
     readonly_fields = ['id', 'mac_address', 'created', 'updated']
@@ -22,8 +27,3 @@ class SensorAdmin(admin.ModelAdmin):
 
     def __str__(self):
         return self.name
-
-
-admin.site.register(Event, EventAdmin)
-admin.site.register(StructuredEvent, StructuredEventAdmin)
-admin.site.register(Sensor, SensorAdmin)

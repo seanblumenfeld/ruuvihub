@@ -1,6 +1,5 @@
 Django==3.0.6
 djangorestframework==3.11.0
-huey==2.2.0
 psycopg2==2.8.5
 ruuvitag-sensor==1.1.0
 bleson==0.0.10

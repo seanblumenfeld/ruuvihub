@@ -6,7 +6,6 @@ excluded_files:
   - "web/settings/*"
 
 excluded_words:
-  - huey
   - ruuvi
   - ruuvihub
   - ruuvitag
