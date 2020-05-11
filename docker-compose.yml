@@ -24,7 +24,6 @@ services:
     env_file:
       - ".${ENV:-test}.env"
     environment:
-      - DOCKER=1
       - ENV=${ENV}
     ports:
       - "8000:8000"
@@ -42,8 +41,7 @@ services:
     env_file:
       - ".${ENV:-dev}.env"
     environment:
-      - DOCKER=1
-      - ENV=${ENV}
+      - ENV=${ENV:-dev}
     ports:
       - "8000:8000"
     depends_on:
