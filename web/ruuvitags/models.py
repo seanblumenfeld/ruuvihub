@@ -1,6 +1,3 @@
-import json
-
-from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -8,13 +5,6 @@ from django.utils.timezone import now
 
 from web.core.abstract_models import BaseMetaModel
 from web.settings.base import DECIMAL_PRECISION
-
-
-def is_json_deserializable(value):
-    try:
-        json.loads(json.dumps(value))
-    except json.decoder.JSONDecodeError as e:
-        raise ValidationError(e.args)
 
 
 def is_mac_address(value):
@@ -49,17 +39,12 @@ class Sensor(BaseMetaModel):
 
 
 class Event(BaseMetaModel):
-    data = JSONField(blank=False, null=False, validators=[is_json_deserializable])
-    sensor = models.ForeignKey(Sensor, related_name='events', on_delete=models.PROTECT)
-
-
-class StructuredEvent(BaseMetaModel):
 
     class DataFormat(models.IntegerChoices):
         """Reference: https://github.com/ruuvi/ruuvi-sensor-protocols """
         FIVE = 5
 
-    event = models.ForeignKey(Event, on_delete=models.PROTECT)
+    sensor = models.ForeignKey(Sensor, related_name='events', on_delete=models.PROTECT)
     data_format = models.IntegerField(choices=DataFormat.choices, blank=False)
     humidity = models.DecimalField(blank=False, **DECIMAL_PRECISION)
     temperature = models.DecimalField(blank=False, **DECIMAL_PRECISION)

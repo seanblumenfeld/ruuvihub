@@ -1,8 +1,7 @@
-from rest_framework import serializers
+from django.db import transaction
 from rest_framework.serializers import ModelSerializer
 
-from web.ruuvitags.models import Event, Sensor, is_mac_address
-from web.ruuvitags import tasks
+from web.ruuvitags.models import Event, Sensor, mac_to_mac_address
 
 
 class SensorSerializer(ModelSerializer):
@@ -13,17 +12,17 @@ class SensorSerializer(ModelSerializer):
 
 
 class EventSerializer(ModelSerializer):
-    mac_address = serializers.CharField(required=True, validators=[is_mac_address], write_only=True)
 
     class Meta:
         model = Event
         fields = '__all__'
         depth = 1
 
+    @transaction.atomic()
     def create(self, validated_data):
-        mac_address = validated_data.pop('mac_address')
+        # Create sensor if required
+        mac_address = mac_to_mac_address(validated_data['mac'])
         sensor = Sensor.objects.get_or_create(mac_address=mac_address)[0]
+        # Create event
         validated_data['sensor'] = sensor
-        event = super().create(validated_data)
-        tasks.create_structured_event(event=event)
-        return event
+        return super().create(validated_data)

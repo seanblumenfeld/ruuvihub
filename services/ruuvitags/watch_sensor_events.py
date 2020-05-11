@@ -24,10 +24,7 @@ def post_sensor_event(mac, data):
     logger.debug(f'Received sensor data for {mac}')
     response = requests.post(
         EVENT_API,
-        json={
-            'mac_address': mac,
-            'data': json.loads(encoders.JSONEncoder().encode(data)),
-        }
+        json=json.loads(encoders.JSONEncoder().encode(data)),
     )
     logger.debug(f'Response: {response.status_code}')
 

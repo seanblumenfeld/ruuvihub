@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'huey.contrib.djhuey',
 ] + RUUVIHUB_APPS
 
 MIDDLEWARE = [
@@ -187,32 +186,13 @@ structlog.configure(
     cache_logger_on_first_use=True,
 )
 
-REST_FRAMEWORK = {}
-
-REST_FRAMEWORK['TEST_REQUEST_DEFAULT_FORMAT'] = 'json'
-
-UNKNOWN_SENSOR_ID = 'ba68f421-fef3-4d0d-b647-156c510caf5a'
-
-HUEY = {
-    'huey_class': 'huey.SqliteHuey',
-    'name': DATABASES['default']['NAME'],
-    'utc': True,
-    'results': True,  # Store return values of tasks.
-    'immediate': False,  # TODO: why must this be false?
-    'consumer': {
-        'workers': 2,
-        'worker_type': 'thread',
-        'initial_delay': 0.1,  # Smallest polling interval, same as -d.
-        'backoff': 1.15,  # Exponential backoff using this rate, -b.
-        'max_delay': 10.0,  # Max possible polling interval, -m.
-        'scheduler_interval': 1,  # Check schedule every second, -s.
-        'periodic': True,  # Enable crontab feature.
-        'check_worker_health': True,  # Enable worker health checks.
-        'health_check_interval': 1,  # Check worker health every second.
-    },
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
 DECIMAL_PRECISION = {
     'max_digits': 28,
     'decimal_places': 15,
 }
+
+UNKNOWN_SENSOR_ID = 'ba68f421-fef3-4d0d-b647-156c510caf5a'
