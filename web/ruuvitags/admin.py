@@ -5,9 +5,17 @@ from web.ruuvitags.models import Event, Sensor
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    fields = ['created', 'updated']
-    readonly_fields = ['id', 'created', 'updated']
-    list_display = ['id', 'created', 'updated']
+    fields = [
+        'data_format', 'mac', 'humidity', 'temperature', 'pressure', 'acceleration',
+        'acceleration_x', 'acceleration_y', 'acceleration_z', 'tx_power', 'battery',
+        'movement_counter', 'measurement_sequence_number', 'created', 'updated'
+    ]
+    readonly_fields = [
+        'data_format', 'humidity', 'temperature', 'pressure', 'acceleration', 'acceleration_x',
+        'acceleration_y', 'acceleration_z', 'tx_power', 'battery', 'movement_counter',
+        'measurement_sequence_number', 'mac', 'created', 'updated'
+    ]
+    list_display = ['id', 'mac_address', 'data_format', 'temperature', 'created']
     ordering = ['-created']
 
 
