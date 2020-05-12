@@ -23,7 +23,11 @@ ENV PYTHONPATH=/app:$PYTHONPATH
 ################ prod
 FROM base as prod
 
+ENV ENV=prod
+
 ADD . /app
+
+CMD [ "/app/scripts/startup.sh" ]
 
 ################ debug
 FROM base as test

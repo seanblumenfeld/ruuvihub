@@ -15,7 +15,8 @@ COMMANDS_TO_DEFAULT_TO_TEST_ENV = ['test', 'check']
 
 def load_env(env_name):
     env_file = os.path.join(BASE_DIR, 'environments', f'.{env_name}.env')
-    environ.Env.read_env(env_file=env_file)
+    if os.path.exists(env_file):
+        environ.Env.read_env(env_file=env_file)
     os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env_name}'
     return env_file, os.environ['DJANGO_SETTINGS_MODULE']
 

@@ -2,4 +2,11 @@
 
 python manage.py migrate
 
-python manage.py runserver ${DJANGO_HOST}:${DJANGO_PORT}
+case ${ENV} in
+    "test" | "dev")
+        python manage.py runserver ${DJANGO_HOST}:${DJANGO_PORT}
+    ;;
+    *)
+        uwsgi --http :8000 --module web.wsgi
+    ;;
+esac
