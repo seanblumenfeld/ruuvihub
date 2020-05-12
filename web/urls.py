@@ -18,6 +18,7 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 
+from web.grafana.views import DashboardView
 from web.ruuvitags.urls import router as ruuvitag_router
 
 router = routers.DefaultRouter()
@@ -30,7 +31,8 @@ urlpatterns = [
         name='api-specs'
     ),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('dashboard/', DashboardView.as_view(), name='dashboard-view')
 ]
 
 urlpatterns += router.urls
