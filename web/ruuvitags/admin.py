@@ -16,6 +16,7 @@ class EventAdmin(admin.ModelAdmin):
         'measurement_sequence_number', 'mac', 'created', 'updated'
     ]
     list_display = ['id', 'mac_address', 'data_format', 'temperature', 'created']
+    list_filter = ['mac']
     ordering = ['-created']
 
 
