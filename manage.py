@@ -14,7 +14,7 @@ COMMANDS_TO_DEFAULT_TO_TEST_ENV = ['test', 'check']
 
 
 def load_env(env_name):
-    env_file = os.path.join(BASE_DIR, f'.{env_name}.env')
+    env_file = os.path.join(BASE_DIR, 'environments', f'.{env_name}.env')
     environ.Env.read_env(env_file=env_file)
     os.environ['DJANGO_SETTINGS_MODULE'] = f'web.settings.{env_name}'
     return env_file, os.environ['DJANGO_SETTINGS_MODULE']
@@ -32,14 +32,11 @@ def get_env_name():
         logger.warning('Disabling all logging.')
         logging.disable(logging.CRITICAL)
         return 'test'
-
-    if sys.argv[1] in COMMANDS_TO_DEFAULT_TO_DEV_ENV:
+    else:
         if env != 'dev':
             logger.warning(f"Running '{sys.argv[1]}' in non dev ENV. Setting ENV to dev to "
                            f"continue.")
         return 'dev'
-
-    raise RuntimeError(f'ENV not set. Cannot run {sys.argv}.')
 
 
 def main():

@@ -10,5 +10,6 @@ excluded_words:
   - ruuvihub
   - ruuvitag
   - ruuvitags
+  - grafana
 
 spellcheck_filenames: true

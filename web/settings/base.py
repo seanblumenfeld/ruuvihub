@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'constance',
+    'constance.backends.database',
 ] + RUUVIHUB_APPS
 
 MIDDLEWARE = [
@@ -193,6 +195,11 @@ REST_FRAMEWORK = {
 DECIMAL_PRECISION = {
     'max_digits': 28,
     'decimal_places': 15,
+}
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_CONFIG = {
+    'GRAFANA_API_KEY': ('', 'Input your Grafana API key here', str)
 }
 
 UNKNOWN_SENSOR_ID = 'ba68f421-fef3-4d0d-b647-156c510caf5a'
