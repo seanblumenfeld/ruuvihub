@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
-python manage.py migrate
+echo "START: startup"
+
+source scripts/utils.sh
+
+setup_db
+collect_static
 
 case ${ENV} in
-    "test" | "dev")
-        python manage.py runserver ${DJANGO_HOST}:${DJANGO_PORT}
-    ;;
-    *)
-        uwsgi --http :8000 --module web.wsgi
-    ;;
+  "test" | "dev")
+    wait_for_pg
+    python manage.py runserver ${HOST}:${PORT}
+  ;;
+  *)
+    uwsgi --http :${PORT} --module web.wsgi
+  ;;
 esac
+
+echo "END: startup"

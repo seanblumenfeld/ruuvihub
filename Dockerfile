@@ -27,9 +27,9 @@ ENV ENV=prod
 
 ADD . /app
 
-CMD [ "/app/scripts/startup.sh" ]
+ENTRYPOINT [ "/app/scripts/startup.sh" ]
 
-################ debug
+################ test
 FROM base as test
 
 # TODO: move to test docker image for testing
@@ -38,8 +38,8 @@ RUN pip install -r /requirements.test.txt
 
 ADD . /app
 
-################ debug
-FROM base as debug
+################ dev
+FROM base as dev
 
 # TODO: move to test docker image for testing
 ADD requirements.test.txt /requirements.test.txt

@@ -15,7 +15,7 @@ env_file = os.path.join('environments', '.dev.env')
 environ.Env.read_env(env_file=env_file)
 
 # TODO: parameterize? Move to settings?
-BASE_URI = f"http://{os.getenv('DJANGO_HOST')}:{os.getenv('DJANGO_PORT')}/"
+BASE_URI = f"http://{os.getenv('HOST')}:{os.getenv('PORT')}/"
 EVENT_API = f'{BASE_URI}events/'
 SENSOR_API = f'{BASE_URI}sensors/'
 
