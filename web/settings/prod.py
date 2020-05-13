@@ -1,3 +1,5 @@
 from web.settings.base import *
 
-ALLOWED_HOSTS += [os.environ['DOMAIN'], 'ruuvihub.herokuapp.com']
+ALLOWED_HOSTS += [os.environ['DOMAIN']]
+
+DEBUG = False

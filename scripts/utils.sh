@@ -11,16 +11,19 @@ copy_env_file_if_not_exists () {
 }
 
 wait_for_pg () {
-  echo "host=$POSTGRES_HOST, port=$POSTGRES_PORT, name=$POSTGRES_NAME"
-  echo "Waiting for PostgreSQL to start..."
-  while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-    sleep 0.1
-  done
-  echo "PostgreSQL started"
+  echo "START: wait_for_pg"
+  echo "TODO"  #  TODO
+#  echo "host=${POSTGRES_HOST}, port=${POSTGRES_PORT}, name=${POSTGRES_DB}"
+#  echo "Waiting for PostgreSQL to start..."
+#  while ! nc -z ${POSTGRES_HOST} ${POSTGRES_PORT}; do
+#    sleep 0.1
+#  done
+  echo "END: wait_for_pg"
 }
 
 setup_db () {
   echo "START: setup_db"
+  python manage.py create_initial_admin
   python manage.py migrate
   echo "END: setup_db"
 }

@@ -10,3 +10,4 @@ structlog==20.1.0
 simple-ruuvitag==0.0.5
 grafana-api==1.0.1
 uwsgi==2.0.18
+whitenoise==5.0.1
