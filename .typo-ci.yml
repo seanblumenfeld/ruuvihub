@@ -4,6 +4,7 @@ dictionaries:
 
 excluded_files:
   - "web/settings/*"
+  - ".github/*"
 
 excluded_words:
   - ruuvi
@@ -11,5 +12,8 @@ excluded_words:
   - ruuvitag
   - ruuvitags
   - grafana
+  - uwsgi
+  - wsgi
+  - esac
 
 spellcheck_filenames: true

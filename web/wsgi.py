@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings.base')
+if not os.getenv('DJANGO_SETTINGS_MODULE'):
+    raise RuntimeError('DJANGO_SETTINGS_MODULE is not set')
 
 application = get_wsgi_application()

@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  release:
+    types: [prereleased]
+  push:
+    branches:
+      - master
+
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Heroku container registry login
+        run: heroku container:login -v
+
+      - name: Build image
+        run: docker build --target=prod --tag=registry.heroku.com/${{ secrets.HEROKU_APP }}/web .
+
+      - name: Push image
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP }}/web
+
+      - name: Release
+        run: heroku container:release --app=${{ secrets.HEROKU_APP }} -v web

@@ -31,11 +31,11 @@ services:
     depends_on:
       - db
 
-  web-debug:
+  web-dev:
     build:
       context: .
       dockerfile: Dockerfile
-      target: debug
+      target: dev
     command: bash -c "./scripts/startup.sh"
     volumes:
       - .:/app
