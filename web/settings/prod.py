@@ -1,5 +1,5 @@
 from web.settings.base import *
 
-ALLOWED_HOSTS += [os.environ['DOMAIN']]
+ALLOWED_HOSTS += [os.environ['HOST']]
 
 DEBUG = False
