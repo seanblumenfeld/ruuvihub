@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import structlog as structlog
 
+WEB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '..')
 
 # Quick-start development settings - unsuitable for production
@@ -32,6 +33,7 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0']
 # Application definition
 
 RUUVIHUB_APPS = [
+    'web.charts',
     'web.core',
     'web.ruuvitags',
 ]
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'constance',
     'constance.backends.database',
+    'django_filters',
 ] + RUUVIHUB_APPS
 
 MIDDLEWARE = [
@@ -64,7 +67,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./web/templates'],
+        'DIRS': [os.path.join(WEB_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +79,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
@@ -192,7 +196,14 @@ structlog.configure(
 )
 
 REST_FRAMEWORK = {
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
 }
 
 DECIMAL_PRECISION = {

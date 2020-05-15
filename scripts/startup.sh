@@ -5,7 +5,6 @@ echo "START: startup"
 source scripts/utils.sh
 
 setup_db
-collect_static
 
 case ${ENV} in
   "test" | "dev")
@@ -13,6 +12,7 @@ case ${ENV} in
     python manage.py runserver ${HOST}:${PORT}
   ;;
   *)
+    collect_static
     uwsgi --http :${PORT} --module web.wsgi
   ;;
 esac
