@@ -3,10 +3,11 @@ from decimal import Decimal
 import factory
 
 from web.ruuvitags.models import Event
+from web.tests.factories.base import BaseMetaFactory
 from web.tests.factories.sensor import SensorFactory
 
 
-class EventFactory(factory.DjangoModelFactory):
+class EventFactory(BaseMetaFactory):
     class Meta:
         model = Event
 

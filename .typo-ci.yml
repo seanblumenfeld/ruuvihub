@@ -15,5 +15,7 @@ excluded_words:
   - uwsgi
   - wsgi
   - esac
+  - urlpatterns
+  - pytz
 
 spellcheck_filenames: true

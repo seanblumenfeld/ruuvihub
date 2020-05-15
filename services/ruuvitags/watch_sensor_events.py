@@ -16,8 +16,8 @@ environ.Env.read_env(env_file=env_file)
 
 # TODO: parameterize? Move to settings?
 BASE_URI = f"http://{os.getenv('HOST')}:{os.getenv('PORT')}/"
-EVENT_API = f'{BASE_URI}events/'
-SENSOR_API = f'{BASE_URI}sensors/'
+EVENT_API = f'{BASE_URI}api/events/'
+SENSOR_API = f'{BASE_URI}api/sensors/'
 
 
 def post_sensor_event(mac, data):

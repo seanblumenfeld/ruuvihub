@@ -11,7 +11,12 @@ class AssertResponseMixin:
         self.assertEqual(response.status_code, status_code, msg=response.data)
 
         if data is not None:
-            self.assertDictEqual(response.data, data)
+            if isinstance(data, dict):
+                self.assertDictEqual(response.data, data)
+            elif isinstance(data, list):
+                self.assertListEqual(response.data, data)
+            else:
+                raise AssertionError('Cannot compare data')
 
         if data_contains is not None:
             self.assertResponseDataContains(response, data_contains)

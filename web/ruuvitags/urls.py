@@ -1,6 +1,7 @@
-from web.ruuvitags.views import EventViewSet, SensorViewSet
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
-router = DefaultRouter()
+from web.ruuvitags.views import EventViewSet, SensorViewSet
+
+router = SimpleRouter()
 router.register('events', EventViewSet, basename='events')
 router.register('sensors', SensorViewSet, basename='sensors')

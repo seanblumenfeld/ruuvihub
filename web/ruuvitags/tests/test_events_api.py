@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from pytz import UTC
 from rest_framework.reverse import reverse
 
 from web.ruuvitags.models import Event, Sensor, mac_to_mac_address
@@ -49,6 +52,34 @@ class EventCreateTests(BaseTestCase):
         self.assertEqual(Event.objects.count(), 1)
         self.assertEqual(Sensor.objects.count(), 1)
         self.assertEqual(Event.objects.get(id=response.data['id']).sensor, sensor)
+
+
+class EventListTests(BaseTestCase):
+
+    def test_can_list_events(self):
+        EventFactory.create_batch(size=4)
+        response = self.client.get(path=reverse('events-list'))
+        self.assertResponse200(response)
+        self.assertEqual(len(response.data), 4)
+
+    def test_filter_events(self):
+        sensor = SensorFactory()
+        EventFactory.create_batch(size=2, sensor=sensor)
+        EventFactory.create_batch(size=2)
+        response = self.client.get(path=reverse('events-list') + f'?sensor={sensor.id}')
+        self.assertResponse200(response)
+        self.assertEqual(len(response.data), 2)
+
+    def test_filter_created_after(self):
+        EventFactory.create_batch(size=3, created=datetime(year=2020, month=5, day=1, tzinfo=UTC))
+        EventFactory.create_batch(size=1, created=datetime(year=2020, month=5, day=3, tzinfo=UTC))
+        response = self.client.get(
+            path=reverse('events-list'),
+            data={'created__gte': datetime(year=2020, month=5, day=2, tzinfo=UTC)}
+        )
+
+        self.assertResponse200(response)
+        self.assertEqual(len(response.data), 1)
 
 
 class EventDetailTests(BaseTestCase):

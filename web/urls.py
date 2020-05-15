@@ -14,25 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 
 from web.grafana.views import DashboardView
 from web.ruuvitags.urls import router as ruuvitag_router
 
-router = routers.DefaultRouter()
-router.registry.extend(ruuvitag_router.registry)
+api_router = routers.DefaultRouter()
+api_router.registry.extend(ruuvitag_router.registry)
 
 urlpatterns = [
-    path(
-        'api-specs/',
-        get_schema_view(title='RuuviHub API Spec', version='1.0.0'),
-        name='api-specs'
-    ),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('dashboard/', DashboardView.as_view(), name='dashboard-view')
+    path('dashboard/', DashboardView.as_view(), name='dashboard-view'),
+    path('api/', include(api_router.urls)),
+    path('api/specs/', get_schema_view(title='RuuviHub', version='0.0.1'), name='api-specs'),
+    path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/charts/', include('web.charts.urls')),
 ]
-
-urlpatterns += router.urls
