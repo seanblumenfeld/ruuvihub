@@ -27,7 +27,7 @@ ENV ENV=prod
 
 ADD . /app
 
-ENTRYPOINT [ "/app/scripts/startup.sh" ]
+ENTRYPOINT [ "/app/scripts/django-startup.sh" ]
 
 ################ test
 FROM base as test

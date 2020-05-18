@@ -1,8 +1,24 @@
 from constance import config
 from django.conf import settings
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views import View
+from django.views.generic import TemplateView
 from grafana_api import GrafanaFace
+from rest_framework.generics import ListAPIView
+
+from web.dashboard.serializers import TemperatureChartDataSerializer
+from web.ruuvitags.models import Event
+
+
+class ChartsTemplateView(TemplateView):
+    template_name = 'chart.html'
+
+
+class TemperatureChartDataView(ListAPIView):
+    queryset = Event.objects.filter(created__gte=timezone.now() - timezone.timedelta(days=1))
+    serializer_class = TemperatureChartDataSerializer
+    filterset_fields = ['sensor']
 
 
 class DashboardView(View):
