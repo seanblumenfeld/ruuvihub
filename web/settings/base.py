@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0']
 # Application definition
 
 RUUVIHUB_APPS = [
-    'web.charts',
     'web.core',
+    'web.dashboard',
     'web.ruuvitags',
 ]
 

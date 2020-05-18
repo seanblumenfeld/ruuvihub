@@ -18,7 +18,6 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 
-from web.grafana.views import DashboardView
 from web.ruuvitags.urls import router as ruuvitag_router
 
 api_router = routers.DefaultRouter()
@@ -26,9 +25,8 @@ api_router.registry.extend(ruuvitag_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', DashboardView.as_view(), name='dashboard-view'),
     path('api/', include(api_router.urls)),
     path('api/specs/', get_schema_view(title='RuuviHub', version='0.0.1'), name='api-specs'),
-    path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/charts/', include('web.charts.urls')),
+    path('api/auth/', include('rest_framework.urls')),
+    path('api/dashboard/', include('web.dashboard.urls')),
 ]
