@@ -11,6 +11,7 @@
   $(function () {
 
       var $temperatureChart = $("#temperatureChart");
+
       $.ajax({
         url: $temperatureChart.data("url"),
         success: function (data) {
@@ -19,7 +20,8 @@
 
           var ds1 = {
             label: 'Temperature',
-            data: data
+            data: data,
+            backgroundColor: '#c8f7dd',
           }
 
           new Chart(ctx, {
@@ -27,8 +29,9 @@
             data: { datasets: [ds1] },
             options: {
               responsive: true,
-              legend: {
-                position: 'top',
+              legend: { position: 'top' },
+              elements: {
+                  point: { radius: 2 }
               },
               scales: {
                 xAxes: [{
@@ -38,6 +41,9 @@
                     unit: 'hours',
                     unitStepSize: '1',
                   }
+                }],
+                yAxes: [{
+                    ticks: { beginAtZero:true }
                 }]
               }
             }
