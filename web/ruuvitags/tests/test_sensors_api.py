@@ -1,15 +1,19 @@
 from rest_framework.reverse import reverse
 
 from web.tests.factories.sensor import SensorFactory
-from web.tests.helpers import BaseTestCase
+from web.tests.factories.user import UserFactory
+from web.tests.helpers import BaseTestCase, get_api_token
 
 
 class SensorDetailTests(BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        self.sensor = SensorFactory()
+        self.user = UserFactory()
+        self.sensor = SensorFactory(user=self.user)
         self.path = reverse('sensors-detail', args=(self.sensor.id,))
+        token = get_api_token(self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_get_sensor(self):
         response = self.client.get(path=self.path)
@@ -20,9 +24,15 @@ class SensorDetailTests(BaseTestCase):
 
 class SensorViewSetTests(BaseTestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.path = reverse('sensors-list')
+
     def setUp(self):
         super().setUp()
-        self.path = reverse('sensors-list')
+        token = get_api_token()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_create_sensor(self):
         name = 'new-sensor'

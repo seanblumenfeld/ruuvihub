@@ -7,7 +7,8 @@ from web.ruuvitags.models import Event, Sensor, mac_to_mac_address
 from web.ruuvitags.tests.helpers import DATA_FORMAT_5_EXAMPLE
 from web.tests.factories.event import EventFactory
 from web.tests.factories.sensor import SensorFactory
-from web.tests.helpers import BaseTestCase
+from web.tests.factories.user import UserFactory
+from web.tests.helpers import BaseTestCase, get_api_token
 
 
 class EventCreateTests(BaseTestCase):
@@ -16,6 +17,12 @@ class EventCreateTests(BaseTestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.path = reverse('events-list')
+
+    def setUp(self):
+        super().setUp()
+        self.user = UserFactory()
+        token = get_api_token(self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_create_event(self):
         response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
@@ -46,7 +53,7 @@ class EventCreateTests(BaseTestCase):
 
     def test_event_from_known_sensor(self):
         mac_address = mac_to_mac_address(DATA_FORMAT_5_EXAMPLE['mac'])
-        sensor = SensorFactory(mac_address=mac_address)
+        sensor = SensorFactory(mac_address=mac_address, user=self.user)
         response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
         self.assertResponse201(response)
         self.assertEqual(Event.objects.count(), 1)
@@ -55,6 +62,11 @@ class EventCreateTests(BaseTestCase):
 
 
 class EventListTests(BaseTestCase):
+
+    def setUp(self):
+        super().setUp()
+        token = get_api_token()
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_list_events(self):
         EventFactory.create_batch(size=4)
@@ -84,11 +96,13 @@ class EventListTests(BaseTestCase):
 
 class EventDetailTests(BaseTestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.event = EventFactory()
-        cls.path = reverse('events-detail', args=(cls.event.id,))
+    def setUp(self):
+        super().setUp()
+        self.user = UserFactory()
+        token = get_api_token(self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+        self.event = EventFactory(sensor__user=self.user)
+        self.path = reverse('events-detail', args=(self.event.id,))
 
     def test_can_get_event(self):
         response = self.client.get(path=self.path)

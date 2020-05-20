@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.db.models import CASCADE
 from django.utils.timezone import now
 
 from web.core.abstract_models import BaseMetaModel
@@ -36,6 +37,11 @@ class Sensor(BaseMetaModel):
         unique=True, blank=False, null=False, max_length=17,
         validators=[MinLengthValidator(17), is_mac_address]
     )
+    user = models.ForeignKey('users.User', on_delete=CASCADE)
+
+    @property
+    def owner(self):
+        return self.user
 
 
 class Event(BaseMetaModel):
@@ -63,3 +69,7 @@ class Event(BaseMetaModel):
     @property
     def mac_address(self):
         return mac_to_mac_address(str(self.mac))
+
+    @property
+    def owner(self):
+        return self.sensor.user
