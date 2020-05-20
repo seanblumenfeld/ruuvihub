@@ -10,3 +10,4 @@ class SensorFactory(BaseMetaFactory):
 
     name = factory.Sequence(lambda n: f'name-{n}')
     mac_address = factory.Sequence(lambda n: f'DU:MM:YX:XX:XX:{n:02}')
+    user = factory.SubFactory('web.tests.factories.user.UserFactory')

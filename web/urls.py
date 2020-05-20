@@ -17,16 +17,25 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from web.ruuvitags.urls import router as ruuvitag_router
+from web.users.urls import router as user_router
 
 api_router = routers.DefaultRouter()
 api_router.registry.extend(ruuvitag_router.registry)
+api_router.registry.extend(user_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', include('rest_registration.api.urls', namespace='rest_registration')),
     path('api/', include(api_router.urls)),
     path('api/specs/', get_schema_view(title='RuuviHub', version='0.0.1'), name='api-specs'),
-    path('api/auth/', include('rest_framework.urls')),
+    # path('api/auth/', include('rest_framework.urls')),
     path('api/dashboard/', include('web.dashboard.urls')),
+
+    # JWT auth
+    path('api/token/obtain/', TokenObtainPairView.as_view(), name='token-obtain'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token-verify'),
 ]

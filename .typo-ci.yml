@@ -5,6 +5,7 @@ dictionaries:
 excluded_files:
   - "web/settings/*"
   - ".github/*"
+  - "requirements*.txt"
 
 excluded_words:
   - ruuvi

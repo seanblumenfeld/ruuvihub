@@ -2,7 +2,20 @@ import logging
 
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED, HTTP_200_OK
 from rest_framework.test import APITestCase
+from rest_framework_simplejwt.tokens import RefreshToken
 from testfixtures import LogCapture
+
+from web.tests.factories.user import UserFactory
+
+
+def get_api_token(user=None):
+    if user is None:
+        user = UserFactory()
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
 
 
 class AssertResponseMixin:
