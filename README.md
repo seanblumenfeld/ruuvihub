@@ -7,6 +7,12 @@ A Django API and Admin site for collecting and managing ruuvitag data.
 https://github.com/ruuvi/ruuvi-sensor-protocols/blob/master/broadcast_formats.md
 
 # TODO
-   * Feature: API Authentication
-   * Feature: Ability to move a Ruuvitag sensor to a new location while keeping data for old location unaffected
+- [x] Feature: API Authentication
+- [ ] Feature: Ability to move a Ruuvitag sensor to a new location while keeping data for old location unaffected
+- [ ] Feature: Set up raspberry pi bluetooth/wifi gateway
+- [ ] Feature: Package up watch_sensor_events service to run on raspberry pi
+- [ ] Feature: Set up SSL
+  - [ ] Task: Set up Heroku app SSL 
+  - [ ] Task: update watch_sensor_events service to use https
+
     
