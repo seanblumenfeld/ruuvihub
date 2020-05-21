@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import timedelta
+
 import structlog as structlog
 
 WEB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -234,4 +236,10 @@ REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': False,
     'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
     'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True
 }
