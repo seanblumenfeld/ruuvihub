@@ -1,6 +1,5 @@
 import argparse
 import json
-import os
 from time import sleep
 
 import requests
