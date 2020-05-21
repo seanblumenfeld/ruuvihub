@@ -18,6 +18,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: test
+      cache_from:
+        - ${CACHE_FROM:-web-test:latest}
     command: bash -c "./scripts/django-startup.sh"
     restart: always
     volumes:

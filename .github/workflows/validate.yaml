@@ -17,8 +17,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build images
-        run: docker-compose build web-test
+      - name: Docker login
+        run: docker login https://docker.pkg.github.com -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Docker image if available
+        run: docker pull docker.pkg.github.com/${{ github.repository }}/web-test:latest || true
+
+      - name: Build Docker image
+        run: |
+          CACHE_FROM=docker.pkg.github.com/${{ github.repository }}/web-test:latest docker-compose build web-test
+
+      - name: Push Docker image
+        run: |
+          docker tag ruuvihub_web-test docker.pkg.github.com/${{ github.repository }}/web-test:latest
+          docker push docker.pkg.github.com/${{ github.repository }}/web-test:latest
 
       - name: Run Django check
         run: docker-compose run web-test python manage.py check
@@ -28,4 +40,3 @@ jobs:
 
       - name: Run tests
         run: docker-compose run web-test python manage.py test -v 2
-
