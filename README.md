@@ -14,5 +14,6 @@ https://github.com/ruuvi/ruuvi-sensor-protocols/blob/master/broadcast_formats.md
 - [ ] Feature: Set up SSL
   - [ ] Task: Set up Heroku app SSL 
   - [ ] Task: update watch_sensor_events service to use https
+- [ ] Feature: Integrate raspberry Pi temperature monitor using https://www.raspberrypi.org/forums/viewtopic.php?t=50373
 
     
