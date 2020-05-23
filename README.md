@@ -1,4 +1,5 @@
 ![Validate](https://github.com/seanblumenfeld/ruuvihub/workflows/Validate/badge.svg)
+![Deploy](https://github.com/seanblumenfeld/ruuvihub/workflows/Deploy/badge.svg)
 
 # RuuviHub
 A Django API and Admin site for collecting and managing ruuvitag data.
