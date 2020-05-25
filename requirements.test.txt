@@ -1,6 +1,6 @@
 -r requirements.txt
 django-extensions==2.2.9
-flake8==3.8.1
+flake8==3.8.2
 PyYAML==5.3.1
 uritemplate==3.0.1
 factory-boy==2.12.0
