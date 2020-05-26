@@ -1,15 +1,14 @@
+import json
 import os
 
 import environ
-import json
-from time import sleep
-
 import requests
-import structlog
+import ruuvitag_sensor.log
 from rest_framework.utils import encoders
-from simple_ruuvitag import RuuviTagClient
+from ruuvitag_sensor.ruuvi import RuuviTagSensor
 
-logger = structlog.getLogger(__name__)
+ruuvitag_sensor.log.enable_console()
+logger = ruuvitag_sensor.log.log
 ENV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
 
 
@@ -44,32 +43,35 @@ def refresh_token():
     response.raise_for_status()
 
 
-def watch_sensor_events(mac, data):
-    logger.info(f'START: watch_sensor_events. MAC: {mac}')
+def ignore_event(event):
+    if event.get('measurement_sequence_number', 1) % 10 == 0:
+        return False
+    logger.info('Ignoring event')
+    return True
+
+
+def watch_sensor_events(data):
+    mac, event = data
+    logger.info(f'START: watch_sensor_events. MAC: {mac}. event: {event}')
+
+    if ignore_event(event):
+        return
+
     response = requests.post(
         url=f"{os.environ['PROTOCOL']}://{os.environ['HOST']}:{os.environ['PORT']}/api/events/",
-        json=json.loads(encoders.JSONEncoder().encode(data)),
+        json=json.loads(encoders.JSONEncoder().encode(event)),
         headers={'Authorization': f"Bearer {os.environ['ACCESS_TOKEN']}"}
     )
     if response.status_code == 201:
         return response
     if response.status_code == 401:
         refresh_token()
-        return watch_sensor_events(mac, data)
+        return watch_sensor_events(data)
     else:
-        logger.error(response.json())
+        logger.error(response.text)
 
 
 if __name__ == '__main__':
     environ.Env.read_env(env_file=ENV_FILE)
-
     obtain_tokens()
-    # TODO: get rid of this and run via supervisord or similar
-    ruuvi_client = RuuviTagClient(callback=watch_sensor_events)
-    ruuvi_client.start()
-    sleep(4)
-
-    while True:
-        logger.debug('RESTART')
-        ruuvi_client.rescan()
-        sleep(60*10)  # 10 minutes
+    RuuviTagSensor.get_datas(watch_sensor_events)
