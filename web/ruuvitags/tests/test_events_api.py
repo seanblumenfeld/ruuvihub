@@ -3,7 +3,7 @@ from datetime import datetime
 from pytz import UTC
 from rest_framework.reverse import reverse
 
-from web.ruuvitags.models import Event, Sensor, mac_to_mac_address
+from web.ruuvitags.models import Event, Sensor
 from web.ruuvitags.tests.helpers import DATA_FORMAT_5_EXAMPLE
 from web.tests.factories.event import EventFactory
 from web.tests.factories.sensor import SensorFactory
@@ -52,8 +52,7 @@ class EventCreateTests(BaseTestCase):
         self.assertEqual(Sensor.objects.count(), 1)
 
     def test_event_from_known_sensor(self):
-        mac_address = mac_to_mac_address(DATA_FORMAT_5_EXAMPLE['mac'])
-        sensor = SensorFactory(mac_address=mac_address, user=self.user)
+        sensor = SensorFactory(mac=DATA_FORMAT_5_EXAMPLE['mac'], user=self.user)
         response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
         self.assertResponse201(response)
         self.assertEqual(Event.objects.count(), 1)

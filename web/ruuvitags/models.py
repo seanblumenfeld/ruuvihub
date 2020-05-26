@@ -9,20 +9,14 @@ from web.settings.base import DECIMAL_PRECISION
 
 
 def is_mac_address(value):
+    raise Exception()
+
+
+def is_mac(value):
     """Example - 'DU:MM:YD:AT:A9:3D'"""
     array = value.split(':')
     if len(array) != 6:
         raise ValidationError("Expected string of the form 'DU:MM:YD:AT:A9:3D'")
-
-
-def is_mac(value):
-    """Example - 'dummydata93d'"""
-    if len(value) != 12:
-        raise ValidationError("Expected string of the form 'dummydata93d'")
-
-
-def mac_to_mac_address(mac):
-    return ':'.join([mac[i:i+2].upper() for i in range(0, len(mac), 2)])
 
 
 def get_sensor_name():
@@ -33,9 +27,9 @@ class Sensor(BaseMetaModel):
     name = models.TextField(
         unique=True, default=get_sensor_name, help_text='A user editable identifier for a sensor.'
     )
-    mac_address = models.CharField(
+    mac = models.CharField(
         unique=True, blank=False, null=False, max_length=17,
-        validators=[MinLengthValidator(17), is_mac_address]
+        validators=[MinLengthValidator(17), is_mac]
     )
     user = models.ForeignKey('users.User', on_delete=CASCADE)
 
@@ -63,12 +57,7 @@ class Event(BaseMetaModel):
     battery = models.IntegerField(blank=False)
     movement_counter = models.IntegerField(blank=False)
     measurement_sequence_number = models.IntegerField(blank=False)
-    mac = models.CharField(max_length=12, validators=[is_mac])
-    # TODO: include _updated_at field from ruuvitag event?
-
-    @property
-    def mac_address(self):
-        return mac_to_mac_address(str(self.mac))
+    mac = models.CharField(max_length=17, validators=[is_mac])
 
     @property
     def owner(self):
