@@ -57,6 +57,7 @@ def watch_sensor_events(data):
     if ignore_event(event):
         return
 
+    event['mac'] = mac
     response = requests.post(
         url=f"{os.environ['PROTOCOL']}://{os.environ['HOST']}:{os.environ['PORT']}/api/events/",
         json=json.loads(encoders.JSONEncoder().encode(event)),

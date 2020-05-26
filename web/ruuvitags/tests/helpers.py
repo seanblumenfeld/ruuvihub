@@ -33,6 +33,10 @@ DATA_FORMAT_5_EXAMPLE = {
     "battery": 3193,
     "movement_counter": 21,
     "measurement_sequence_number": 963,
-    "mac": "dummydata93d",
+    "mac": 'DU:MM:YD:AT:A9:3D',
     "_updated_at": "2020-05-08T17:43:57.695572"
 }
+
+
+def mac_lower_to_mac_upper(mac):
+    return ':'.join([mac[i:i+2].upper() for i in range(0, len(mac), 2)])

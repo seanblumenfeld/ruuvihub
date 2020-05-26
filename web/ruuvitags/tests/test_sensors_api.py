@@ -38,7 +38,7 @@ class SensorViewSetTests(BaseTestCase):
         name = 'new-sensor'
         response = self.client.post(
             path=self.path,
-            data={'name': name, 'mac_address': 'DU:MM:YD:AT:A9:3D'},
+            data={'name': name, 'mac': 'DU:MM:YD:AT:A9:3D'},
         )
         self.assertResponse201(response)
         self.assertEqual(response.data['name'], name)
@@ -46,12 +46,12 @@ class SensorViewSetTests(BaseTestCase):
     def test_400_when_params_not_provided(self):
         response = self.client.post(path=self.path)
         self.assertResponse400(response)
-        self.assertEqual(response.data['mac_address'][0].code, 'required')
+        self.assertEqual(response.data['mac'][0].code, 'required')
 
-    def test_400_mac_address_invalid(self):
+    def test_400_mac_invalid(self):
         response = self.client.post(
             path=self.path,
-            data={'name': 'fake', 'mac_address': 'not-good'}
+            data={'name': 'fake', 'mac': 'not-good'}
         )
         self.assertResponse400(response)
-        self.assertEqual(response.data['mac_address'][0].code, 'invalid')
+        self.assertEqual(response.data['mac'][0].code, 'invalid')

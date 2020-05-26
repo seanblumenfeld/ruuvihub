@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework.serializers import ModelSerializer
 
-from web.ruuvitags.models import Event, Sensor, mac_to_mac_address
+from web.ruuvitags.models import Event, Sensor
 
 
 class SensorSerializer(ModelSerializer):
@@ -22,9 +22,8 @@ class EventSerializer(ModelSerializer):
     @transaction.atomic()
     def create(self, validated_data):
         # Create sensor if required
-        mac_address = mac_to_mac_address(validated_data['mac'])
         sensor = Sensor.objects.get_or_create(
-            mac_address=mac_address,
+            mac=validated_data['mac'],
             user=self.context['request'].user
         )[0]
         # Create event
