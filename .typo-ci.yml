@@ -18,5 +18,6 @@ excluded_words:
   - esac
   - urlpatterns
   - pytz
+  - venv
 
 spellcheck_filenames: true
