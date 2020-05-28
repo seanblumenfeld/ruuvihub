@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'constance',
     'constance.backends.database',
     'django_filters',
+    'rangefilter',
 ] + RUUVIHUB_APPS
 
 MIDDLEWARE = [

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rangefilter.filter import DateTimeRangeFilter
 
 from web.ruuvitags.models import Event, Sensor
 
@@ -16,7 +17,7 @@ class EventAdmin(admin.ModelAdmin):
         'measurement_sequence_number', 'mac', 'created', 'updated'
     ]
     list_display = ['sensor_name', 'mac', 'data_format', 'temperature', 'created']
-    list_filter = ['mac']
+    list_filter = ['mac', ('created', DateTimeRangeFilter)]
     ordering = ['-created']
 
     def sensor_name(self, obj):
@@ -28,6 +29,7 @@ class SensorAdmin(admin.ModelAdmin):
     fields = ['name', 'mac', 'created', 'updated']
     readonly_fields = ['id', 'mac', 'created', 'updated']
     list_display = ['name', 'mac', 'created', 'updated']
+    list_filter = ['name', ('created', DateTimeRangeFilter)]
 
     def __str__(self):
         return self.name

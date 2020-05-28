@@ -1,11 +1,14 @@
+import argparse
 import json
 import os
+from time import sleep
 
 import environ
 import requests
 import ruuvitag_sensor.log
 from rest_framework.utils import encoders
 from ruuvitag_sensor.ruuvi import RuuviTagSensor
+from simple_ruuvitag import RuuviTagClient
 
 ruuvitag_sensor.log.enable_console()
 logger = ruuvitag_sensor.log.log
@@ -44,14 +47,13 @@ def refresh_token():
 
 
 def ignore_event(event):
-    if event.get('measurement_sequence_number', 1) % 10 == 0:
+    if event.get('measurement_sequence_number', 1) % int(os.environ['IGNORE_INTERVAL']) == 0:
         return False
     logger.info('Ignoring event')
     return True
 
 
-def watch_sensor_events(data):
-    mac, event = data
+def _watch_sensor_events(mac, event):
     logger.info(f'START: watch_sensor_events. MAC: {mac}. event: {event}')
 
     if ignore_event(event):
@@ -67,12 +69,36 @@ def watch_sensor_events(data):
         return response
     if response.status_code == 401:
         refresh_token()
-        return watch_sensor_events(data)
+        return _watch_sensor_events(mac, event)
     else:
         logger.error(response.text)
 
 
+def simple_ruuvitag_watch_sensor_events(mac, event):
+    return _watch_sensor_events(mac, event)
+
+
+def ruuvitag_sensor_watch_sensor_events(data):
+    mac, event = data
+    return _watch_sensor_events(mac, event)
+
+
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--use-simple-ruuvitag', action='store_true', default=False)
+    parser.add_argument('--ignore-interval', type=int, default=10)
+    xargs = parser.parse_args()
+
+    os.environ['IGNORE_INTERVAL'] = str(xargs.ignore_interval)
     environ.Env.read_env(env_file=ENV_FILE)
     obtain_tokens()
-    RuuviTagSensor.get_datas(watch_sensor_events)
+
+    if xargs.use_simple_ruuvitag:
+        ruuvi_client = RuuviTagClient(callback=simple_ruuvitag_watch_sensor_events)
+        ruuvi_client.start()
+        sleep(4)
+        while True:
+            ruuvi_client.rescan()
+            sleep(60 * 10)  # 10 minutes
+    else:
+        RuuviTagSensor.get_datas(ruuvitag_sensor_watch_sensor_events)
