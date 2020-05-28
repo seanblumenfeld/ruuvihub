@@ -18,7 +18,7 @@ class ChartsTemplateView(TemplateView):
 class TemperatureChartDataView(ListAPIView):
     queryset = Event.objects.filter(created__gte=timezone.now() - timezone.timedelta(days=1))
     serializer_class = TemperatureChartDataSerializer
-    filterset_fields = ['sensor']
+    filterset_fields = ['location']
 
 
 class DashboardView(View):

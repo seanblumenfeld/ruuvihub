@@ -4,14 +4,14 @@ import factory
 
 from web.ruuvitags.models import Event
 from web.tests.factories.base import BaseMetaFactory
-from web.tests.factories.sensor import SensorFactory
+from web.tests.factories.location import LocationFactory
 
 
 class EventFactory(BaseMetaFactory):
     class Meta:
         model = Event
 
-    sensor = factory.SubFactory(SensorFactory)
+    location = factory.SubFactory(LocationFactory)
     data_format = Event.DataFormat.FIVE
     humidity = Decimal('30.27')
     temperature = Decimal('26.24')
@@ -24,4 +24,3 @@ class EventFactory(BaseMetaFactory):
     battery = 3193
     movement_counter = 21
     measurement_sequence_number = 963
-    mac = 'dummydata93d'

@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework.serializers import ModelSerializer
 
-from web.ruuvitags.models import Event, Sensor
+from web.ruuvitags.models import Event, Sensor, Location
 
 
 class SensorSerializer(ModelSerializer):
@@ -10,6 +10,13 @@ class SensorSerializer(ModelSerializer):
         model = Sensor
         fields = '__all__'
         read_only_fields = ['user']
+
+
+class LocationSerializer(ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = '__all__'
 
 
 class EventSerializer(ModelSerializer):
@@ -21,11 +28,12 @@ class EventSerializer(ModelSerializer):
 
     @transaction.atomic()
     def create(self, validated_data):
-        # Create sensor if required
+        # Create sensor and location if required
         sensor = Sensor.objects.get_or_create(
             mac=validated_data['mac'],
             user=self.context['request'].user
         )[0]
+        location = Location.objects.get_or_create(sensor=sensor)[0]
         # Create event
-        validated_data['sensor'] = sensor
+        validated_data['location'] = location
         return super().create(validated_data)

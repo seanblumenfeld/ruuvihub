@@ -3,9 +3,10 @@ from datetime import datetime
 from pytz import UTC
 from rest_framework.reverse import reverse
 
-from web.ruuvitags.models import Event, Sensor
+from web.ruuvitags.models import Event, Sensor, Location
 from web.ruuvitags.tests.helpers import DATA_FORMAT_5_EXAMPLE
 from web.tests.factories.event import EventFactory
+from web.tests.factories.location import LocationFactory
 from web.tests.factories.sensor import SensorFactory
 from web.tests.factories.user import UserFactory
 from web.tests.helpers import BaseTestCase, get_api_token
@@ -49,6 +50,7 @@ class EventCreateTests(BaseTestCase):
         response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
         self.assertResponse201(response)
         self.assertEqual(Event.objects.count(), 1)
+        self.assertEqual(Location.objects.count(), 1)
         self.assertEqual(Sensor.objects.count(), 1)
 
     def test_event_from_known_sensor(self):
@@ -57,7 +59,7 @@ class EventCreateTests(BaseTestCase):
         self.assertResponse201(response)
         self.assertEqual(Event.objects.count(), 1)
         self.assertEqual(Sensor.objects.count(), 1)
-        self.assertEqual(Event.objects.get(id=response.data['id']).sensor, sensor)
+        self.assertEqual(Event.objects.get(id=response.data['id']).location.sensor, sensor)
 
 
 class EventListTests(BaseTestCase):
@@ -74,10 +76,10 @@ class EventListTests(BaseTestCase):
         self.assertEqual(len(response.data), 4)
 
     def test_filter_events(self):
-        sensor = SensorFactory()
-        EventFactory.create_batch(size=2, sensor=sensor)
+        location = LocationFactory()
+        EventFactory.create_batch(size=2, location=location)
         EventFactory.create_batch(size=2)
-        response = self.client.get(path=reverse('events-list') + f'?sensor={sensor.id}')
+        response = self.client.get(path=reverse('events-list') + f'?location={location.id}')
         self.assertResponse200(response)
         self.assertEqual(len(response.data), 2)
 
@@ -100,7 +102,7 @@ class EventDetailTests(BaseTestCase):
         self.user = UserFactory()
         token = get_api_token(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
-        self.event = EventFactory(sensor__user=self.user)
+        self.event = EventFactory(location__sensor__user=self.user)
         self.path = reverse('events-detail', args=(self.event.id,))
 
     def test_can_get_event(self):
