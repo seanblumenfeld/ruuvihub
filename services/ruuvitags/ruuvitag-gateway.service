@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Environment=PYTHONUNBUFFERED=1
-ExecStart=~/.venv/bin/python ~./watch_sensor_events.py
+ExecStart=~/.venv/bin/python ~./ruuvitag_gateway.py
 Restart=on-failure
 
 [Install]

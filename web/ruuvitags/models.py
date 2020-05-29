@@ -53,6 +53,14 @@ class Location(BaseMetaModel):
     def owner(self):
         return self.sensor.user
 
+    @staticmethod
+    def get_latest_for_sensor_or_create(sensor):
+        location_exists = Location.objects.filter(sensor=sensor).exists()
+        if location_exists:
+            # Get the latest location
+            return Location.objects.filter(sensor=sensor).order_by('-created')[0]
+        return Location.objects.create(sensor=sensor)
+
 
 class Event(BaseMetaModel):
 
