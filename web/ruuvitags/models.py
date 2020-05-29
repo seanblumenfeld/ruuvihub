@@ -23,6 +23,10 @@ def get_sensor_name():
     return f'Sensor-{now()}'
 
 
+def get_location_name():
+    return f'Location-{now()}'
+
+
 class Sensor(BaseMetaModel):
     name = models.TextField(
         unique=True, default=get_sensor_name, help_text='A user editable identifier for a sensor.'
@@ -38,13 +42,25 @@ class Sensor(BaseMetaModel):
         return self.user
 
 
+class Location(BaseMetaModel):
+    name = models.TextField(
+        unique=True, default=get_location_name,
+        help_text='A user editable identifier for a location.'
+    )
+    sensor = models.ForeignKey(Sensor, related_name='locations', on_delete=models.PROTECT)
+
+    @property
+    def owner(self):
+        return self.sensor.user
+
+
 class Event(BaseMetaModel):
 
     class DataFormat(models.IntegerChoices):
         """Reference: https://github.com/ruuvi/ruuvi-sensor-protocols """
         FIVE = 5
 
-    sensor = models.ForeignKey(Sensor, related_name='events', on_delete=models.PROTECT)
+    location = models.ForeignKey(Location, related_name='events', on_delete=models.PROTECT)
     data_format = models.IntegerField(choices=DataFormat.choices, blank=False)
     humidity = models.DecimalField(blank=False, **DECIMAL_PRECISION)
     temperature = models.DecimalField(blank=False, **DECIMAL_PRECISION)
@@ -61,4 +77,4 @@ class Event(BaseMetaModel):
 
     @property
     def owner(self):
-        return self.sensor.user
+        return self.location.sensor.user

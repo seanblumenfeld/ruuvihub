@@ -9,7 +9,7 @@ class EventViewSet(ModelViewSet):
     """APIs for a Ruuvitag sensor's broadcast data event."""
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    filterset_fields = ['sensor']  # Generic filtering using DEFAULT_FILTER_BACKENDS
+    filterset_fields = ['location']  # Generic filtering using DjangoFilterBackend
 
     def get_queryset(self):
         queryset = self.queryset

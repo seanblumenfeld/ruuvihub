@@ -35,13 +35,21 @@ class SensorViewSetTests(BaseTestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_create_sensor(self):
-        name = 'new-sensor'
+        mac = 'DU:MM:YD:AT:A9:3D'
         response = self.client.post(
             path=self.path,
-            data={'name': name, 'mac': 'DU:MM:YD:AT:A9:3D'},
+            data={'mac': mac},
         )
         self.assertResponse201(response)
-        self.assertEqual(response.data['name'], name)
+        self.assertEqual(response.data['mac'], mac)
+
+    def test_new_sensor_creates_sensor_location(self):
+        mac = 'DU:MM:YD:AT:A9:3D'
+        response = self.client.post(
+            path=self.path,
+            data={'mac': mac},
+        )
+        self.assertResponse201(response)
 
     def test_400_when_params_not_provided(self):
         response = self.client.post(path=self.path)
@@ -51,7 +59,7 @@ class SensorViewSetTests(BaseTestCase):
     def test_400_mac_invalid(self):
         response = self.client.post(
             path=self.path,
-            data={'name': 'fake', 'mac': 'not-good'}
+            data={'mac': 'not-good'}
         )
         self.assertResponse400(response)
         self.assertEqual(response.data['mac'][0].code, 'invalid')
