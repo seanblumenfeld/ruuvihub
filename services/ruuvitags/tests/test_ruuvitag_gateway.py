@@ -17,14 +17,18 @@ class Tests(TestCase):
 
     @patch('services.ruuvitags.ruuvitag_gateway.ignore_event', return_value=False)
     def test_post_to_events_api(self, _requests_mock, _ignore_event_mock):
-        _requests_mock.register_uri('POST', f'{self.uri}/api/events/', status_code=201)
+        _requests_mock.register_uri(
+            'POST', f'{self.uri}/api/ruuvitags/broadcasts/', status_code=201
+        )
         response = ruuvitag_sensor_watch_sensor_events(data=('fake-mac', {'fake': 'json-data'}))
         self.assertTrue(_requests_mock.called)
         self.assertEqual(response.status_code, 201)
 
     @patch('services.ruuvitags.ruuvitag_gateway.ignore_event', return_value=True)
     def test_ignore_event_and_do_not_post_to_events_api(self, _requests_mock, _ignore_event_mock):
-        _requests_mock.register_uri('POST', f'{self.uri}/api/events/', status_code=201)
+        _requests_mock.register_uri(
+            'POST', f'{self.uri}/api/ruuvitags/broadcasts/', status_code=201
+        )
         response = ruuvitag_sensor_watch_sensor_events(data=('fake-mac', {'fake': 'json-data'}))
         self.assertFalse(_requests_mock.called)
         self.assertIsNone(response)
@@ -32,7 +36,8 @@ class Tests(TestCase):
     @patch('services.ruuvitags.ruuvitag_gateway.ignore_event', return_value=False)
     def test_api_token_refresh(self, _requests_mock, _ignore_event_mock):
         _requests_mock.register_uri(
-            'POST', f'{self.uri}/api/events/', [{'status_code': 401}, {'status_code': 201}]
+            'POST', f'{self.uri}/api/ruuvitags/broadcasts/',
+            [{'status_code': 401}, {'status_code': 201}]
         )
         _requests_mock.register_uri(
             'POST', f'{self.uri}/api/token/refresh/', status_code=200,
@@ -40,7 +45,7 @@ class Tests(TestCase):
         )
         response = ruuvitag_sensor_watch_sensor_events(data=('fake-mac', {'fake': 'json-data'}))
         self.assertEqual(_requests_mock.call_count, 3)
-        self.assertEqual(_requests_mock.request_history[0].path, '/api/events/')
+        self.assertEqual(_requests_mock.request_history[0].path, '/api/ruuvitags/broadcasts/')
         self.assertEqual(_requests_mock.request_history[1].path, '/api/token/refresh/')
-        self.assertEqual(_requests_mock.request_history[2].path, '/api/events/')
+        self.assertEqual(_requests_mock.request_history[2].path, '/api/ruuvitags/broadcasts/')
         self.assertEqual(response.status_code, 201)
