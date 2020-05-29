@@ -61,7 +61,8 @@ def _watch_sensor_events(mac, event):
 
     event['mac'] = mac
     response = requests.post(
-        url=f"{os.environ['PROTOCOL']}://{os.environ['HOST']}:{os.environ['PORT']}/api/events/",
+        url=f"{os.environ['PROTOCOL']}://{os.environ['HOST']}:{os.environ['PORT']}"
+            "/api/ruuvitags/broadcasts/",
         json=json.loads(encoders.JSONEncoder().encode(event)),
         headers={'Authorization': f"Bearer {os.environ['ACCESS_TOKEN']}"}
     )

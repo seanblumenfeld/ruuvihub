@@ -34,7 +34,6 @@ DATA_FORMAT_5_EXAMPLE = {
     "movement_counter": 21,
     "measurement_sequence_number": 963,
     "mac": 'DU:MM:YD:AT:A9:3D',
-    "_updated_at": "2020-05-08T17:43:57.695572"
 }
 
 

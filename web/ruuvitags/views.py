@@ -1,15 +1,23 @@
 from django.utils.dateparse import parse_datetime
+from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ModelViewSet
 
-from web.ruuvitags.models import Event, Sensor
-from web.ruuvitags.serializers import EventSerializer, SensorSerializer
+from web.ruuvitags.models import Event, Sensor, Location
+from web.ruuvitags.serializers import EventSerializer, SensorSerializer, LocationSerializer, \
+    BroadcastSerializer
+
+
+class BroadcastCreateView(CreateAPIView):
+    """AIs for a Ruuvitag broadcast data event."""
+    queryset = Event.objects.all()
+    serializer_class = BroadcastSerializer
 
 
 class EventViewSet(ModelViewSet):
-    """APIs for a Ruuvitag sensor's broadcast data event."""
+    """APIs for a Ruuvitag event."""
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    filterset_fields = ['location']  # Generic filtering using DjangoFilterBackend
+    filterset_fields = ['location']
 
     def get_queryset(self):
         queryset = self.queryset
@@ -17,6 +25,13 @@ class EventViewSet(ModelViewSet):
         if created__gte is not None:
             queryset = self.queryset.filter(created__gte=created__gte)
         return queryset
+
+
+class LocationViewSet(ModelViewSet):
+    """APIs for a Ruuvitag location object."""
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    filterset_fields = ['sensor']
 
 
 class SensorViewSet(ModelViewSet):

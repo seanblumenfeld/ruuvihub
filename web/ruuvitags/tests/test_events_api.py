@@ -3,11 +3,9 @@ from datetime import datetime
 from pytz import UTC
 from rest_framework.reverse import reverse
 
-from web.ruuvitags.models import Event, Sensor, Location
-from web.ruuvitags.tests.helpers import DATA_FORMAT_5_EXAMPLE
+from web.ruuvitags.models import Event
 from web.tests.factories.event import EventFactory
 from web.tests.factories.location import LocationFactory
-from web.tests.factories.sensor import SensorFactory
 from web.tests.factories.user import UserFactory
 from web.tests.helpers import BaseTestCase, get_api_token
 
@@ -26,8 +24,28 @@ class EventCreateTests(BaseTestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
 
     def test_can_create_event(self):
-        response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
+        location = LocationFactory()
+        response = self.client.post(
+            path=self.path,
+            data={
+                'data_format': 5,
+                'humidity': 30.27,
+                'temperature': 26.24,
+                'pressure': 1013.49,
+                'acceleration': 990.1030249423542,
+                'acceleration_x': 56,
+                'acceleration_y': -32,
+                'acceleration_z': 988,
+                'tx_power': 4,
+                'battery': 3193,
+                'movement_counter': 21,
+                'measurement_sequence_number': 963,
+                'mac': 'DU:MM:YD:AT:A9:3D',
+                'location': location.id
+            }
+        )
         self.assertResponse201(response)
+        self.assertEqual(Event.objects.filter(location=location).count(), 1)
 
     def test_400_when_no_payload_provided(self):
         response = self.client.post(path=self.path)
@@ -45,21 +63,6 @@ class EventCreateTests(BaseTestCase):
         self.assertEqual(response.data['movement_counter'][0].code, 'required')
         self.assertEqual(response.data['measurement_sequence_number'][0].code, 'required')
         self.assertEqual(response.data['mac'][0].code, 'required')
-
-    def test_event_from_new_sensor_creates_sensor_db_object(self):
-        response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
-        self.assertResponse201(response)
-        self.assertEqual(Event.objects.count(), 1)
-        self.assertEqual(Location.objects.count(), 1)
-        self.assertEqual(Sensor.objects.count(), 1)
-
-    def test_event_from_known_sensor(self):
-        sensor = SensorFactory(mac=DATA_FORMAT_5_EXAMPLE['mac'], user=self.user)
-        response = self.client.post(path=self.path, data=DATA_FORMAT_5_EXAMPLE)
-        self.assertResponse201(response)
-        self.assertEqual(Event.objects.count(), 1)
-        self.assertEqual(Sensor.objects.count(), 1)
-        self.assertEqual(Event.objects.get(id=response.data['id']).location.sensor, sensor)
 
 
 class EventListTests(BaseTestCase):
