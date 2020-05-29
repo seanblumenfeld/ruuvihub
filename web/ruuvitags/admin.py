@@ -9,7 +9,7 @@ class EventAdmin(admin.ModelAdmin):
     fields = [
         'data_format', 'humidity', 'temperature', 'pressure', 'acceleration',
         'acceleration_x', 'acceleration_y', 'acceleration_z', 'tx_power', 'battery',
-        'movement_counter', 'measurement_sequence_number', 'created', 'updated'
+        'movement_counter', 'measurement_sequence_number', 'location', 'created', 'updated'
     ]
     readonly_fields = [
         'data_format', 'humidity', 'temperature', 'pressure', 'acceleration', 'acceleration_x',
@@ -29,12 +29,18 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    fields = ['name', 'created', 'updated']
+    fields = ['name', 'sensor', 'created', 'updated']
     readonly_fields = ['id', 'created', 'updated']
-    list_display = ['name', 'created', 'updated']
+    list_display = ['sensor_name', 'name', 'created', 'updated']
     list_filter = ['name', ('created', DateTimeRangeFilter)]
 
+    def sensor_name(self, obj):
+        return obj.sensor.name
+
     def __str__(self):
+        return self.name
+
+    def __repr__(self):
         return self.name
 
 
@@ -46,4 +52,7 @@ class SensorAdmin(admin.ModelAdmin):
     list_filter = ['name', ('created', DateTimeRangeFilter)]
 
     def __str__(self):
+        return self.name
+
+    def __repr__(self):
         return self.name
