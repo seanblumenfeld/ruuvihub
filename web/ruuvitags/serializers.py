@@ -31,7 +31,7 @@ class BroadcastSerializer(ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
-        depth = 1
+        read_only_fields = ['location']
 
     @transaction.atomic()
     def create(self, validated_data):
@@ -40,7 +40,7 @@ class BroadcastSerializer(ModelSerializer):
             mac=validated_data['mac'],
             user=self.context['request'].user
         )[0]
-        location = Location.objects.get_or_create(sensor=sensor)[0]
+        location = Location.get_latest_for_sensor_or_create(sensor=sensor)
         # Create event
         validated_data['location'] = location
         return super().create(validated_data)
