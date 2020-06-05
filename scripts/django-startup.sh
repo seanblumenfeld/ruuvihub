@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-copy_env_file_if_not_exists () {
-  if [ ! -f .env ]; then
-    echo "'.env' file not found"
-    echo "Copying '.env.example' to '.env' ..."
-    cp .env.example .env
-  else
-    echo "Using existing '.env' file"
-  fi
-}
-
 wait_for_pg () {
   echo "START: wait_for_pg"
   echo "TODO"  #  TODO
@@ -40,6 +30,8 @@ collect_static () {
 echo "START: startup"
 
 setup_db
+
+python manage.py run_huey &
 
 case ${ENV} in
   "test" | "dev")
