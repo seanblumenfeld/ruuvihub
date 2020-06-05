@@ -8,16 +8,18 @@ excluded_files:
   - "requirements*.txt"
 
 excluded_words:
+  - esac
+  - grafana
+  - huey
+  - djhuey
+  - pytz
   - ruuvi
   - ruuvihub
   - ruuvitag
   - ruuvitags
-  - grafana
-  - uwsgi
-  - wsgi
-  - esac
   - urlpatterns
-  - pytz
+  - uwsgi
   - venv
+  - wsgi
 
 spellcheck_filenames: true
