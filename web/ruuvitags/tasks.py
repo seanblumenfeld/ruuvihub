@@ -9,7 +9,7 @@ from web.ruuvitags.models import Event
 logger = logging.getLogger(__name__)
 
 
-@periodic_task(crontab(minute='0', hour='16'))
+@periodic_task(crontab(minute='0'))
 def free_up_db_space():
     logger.info('START: free_up_db_space')
 
