@@ -2,7 +2,7 @@ import logging
 
 from django.contrib.admin import models as admin_models
 from huey import crontab
-from huey.contrib.djhuey import periodic_task
+from huey.contrib.djhuey import db_periodic_task
 
 from web.ruuvitags.models import Event
 
@@ -34,7 +34,7 @@ def purge_old_admin_logs(rows_to_keep=1000):
     rows_to_delete.delete()
 
 
-@periodic_task(crontab(minute='0', hour='8'))
+@db_periodic_task(crontab(minute='0', hour='8'))
 def free_up_db_space():
     logger.info('START: free_up_db_space')
     purge_old_events()
