@@ -253,12 +253,12 @@ HUEY = {
     'consumer': {
         'workers': 2,
         'worker_type': 'thread',
-        'initial_delay': 0.1,  # Smallest polling interval, same as -d.
-        'backoff': 1.15,  # Exponential backoff using this rate, -b.
-        'max_delay': 10.0,  # Max possible polling interval, -m.
-        'scheduler_interval': 1,  # Check schedule every second, -s.
-        'periodic': True,  # Enable crontab feature.
-        'check_worker_health': True,  # Enable worker health checks.
-        'health_check_interval': 1,  # Check worker health every second.
+        'initial_delay': 0.1,
+        'backoff': 1.15,
+        'max_delay': 10.0,
+        'scheduler_interval': 60,
+        'periodic': True,
+        'check_worker_health': True,
+        'health_check_interval': 10,
     },
 }
