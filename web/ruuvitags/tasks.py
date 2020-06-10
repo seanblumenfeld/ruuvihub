@@ -26,7 +26,7 @@ def purge_old_admin_logs(rows_to_keep=1000):
         return
 
     delete_older_than = admin_models.LogEntry.objects.all().order_by(
-        '-action_time')[rows_to_keep - 1].created
+        '-action_time')[rows_to_keep - 1].action_time
     rows_to_delete = admin_models.LogEntry.objects.filter(action_time__lte=delete_older_than)
     logger.info(
         f'Deleting {rows_to_delete.count()} logs older than {delete_older_than}.'
