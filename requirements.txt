@@ -10,7 +10,7 @@ django-picklefield==2.1.1
 structlog==20.1.0
 simple-ruuvitag==0.0.5
 grafana-api==1.0.2
-uwsgi==2.0.18
+uwsgi==2.0.19.1
 whitenoise==5.1.0
 djangorestframework-simplejwt==4.4.0
 django-rest-registration==0.5.6
