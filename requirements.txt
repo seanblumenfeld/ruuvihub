@@ -3,7 +3,7 @@ djangorestframework==3.11.0
 psycopg2==2.8.5
 ruuvitag-sensor==1.1.0
 bleson==0.0.10
-django-constance==2.6.0
+django-constance==2.7.0
 django-environ==0.4.5
 django-filter==2.2.0
 django-picklefield==2.1.1
