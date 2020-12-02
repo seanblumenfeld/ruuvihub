@@ -8,10 +8,13 @@ excluded_files:
   - "requirements*.txt"
 
 excluded_words:
+  - addopts
+  - backends
+  - bleson
+  - djhuey
   - esac
   - grafana
   - huey
-  - djhuey
   - pytz
   - ruuvi
   - ruuvihub

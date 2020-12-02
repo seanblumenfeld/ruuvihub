@@ -1,9 +1,0 @@
-[flake8]
-exclude =
-    .git
-    migrations
-    downloads
-    web/settings
-max-line-length = 100
-per-file-ignores =
-    web/settings/*.py:F403,F405

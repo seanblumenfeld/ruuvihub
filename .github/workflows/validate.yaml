@@ -21,22 +21,23 @@ jobs:
         run: docker login https://docker.pkg.github.com -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull Docker image if available
-        run: docker pull docker.pkg.github.com/${{ github.repository }}/web-test:latest || true
+        run: docker pull docker.pkg.github.com/${{ github.repository }}/web:latest || true
 
       - name: Build Docker image
         run: |
-          CACHE_FROM=docker.pkg.github.com/${{ github.repository }}/web-test:latest docker-compose build web-test
+          cp -n .sample.env .env
+          CACHE_FROM=docker.pkg.github.com/${{ github.repository }}/web:latest docker-compose build web
 
       - name: Run Django check
-        run: docker-compose run web-test python manage.py check
+        run: docker-compose run web python manage.py check
 
       - name: Run linters
-        run: docker-compose run web-test flake8 .
+        run: docker-compose run web flake8 .
 
       - name: Run tests
-        run: docker-compose run web-test python manage.py test -v 2
+        run: docker-compose run web python manage.py test -v 2
 
       - name: Push Docker image
         run: |
-          docker tag ruuvihub_web-test docker.pkg.github.com/${{ github.repository }}/web-test:latest
-          docker push docker.pkg.github.com/${{ github.repository }}/web-test:latest
+          docker tag ruuvihub_web docker.pkg.github.com/${{ github.repository }}/web:latest
+          docker push docker.pkg.github.com/${{ github.repository }}/web:latest

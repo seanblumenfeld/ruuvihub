@@ -6,13 +6,13 @@ from web.tests.factories.event import EventFactory
 from web.tests.helpers import BaseTestCase, get_api_token
 
 
-class EventDetailTests(BaseTestCase):
+class ChartDataApiTests(BaseTestCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.events = EventFactory.create_batch(size=10)
-        cls.path = reverse('chart-data-temp-view')
+        cls.path = reverse('dashboards-api:charts-data-temperature')
 
     def setUp(self):
         super().setUp()

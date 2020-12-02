@@ -14,7 +14,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import timedelta
 
+import environ
 import structlog as structlog
+
+env = environ.Env()
 
 WEB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '..')
@@ -22,18 +25,18 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'not-a-secret')
+SECRET_KEY = env('SECRET_KEY', default='not-a-secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Application definition
 
 RUUVIHUB_APPS = [
     'web.core',
-    'web.dashboard',
+    'web.dashboards',
     'web.ruuvitags',
     'web.users',
 ]
@@ -93,11 +96,11 @@ WSGI_APPLICATION = 'web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+        'NAME': env('WEB_DB_NAME'),
+        'USER': env('WEB_DB_USER'),
+        'PASSWORD': env('WEB_DB_PASSWORD'),
+        'HOST': env('WEB_DB_HOST'),
+        'PORT': env('WEB_DB_PORT'),
     }
 }
 
@@ -230,7 +233,7 @@ CONSTANCE_CONFIG = {
 
 UNKNOWN_SENSOR_ID = 'ba68f421-fef3-4d0d-b647-156c510caf5a'
 
-GRAFANA_PORT = os.getenv('GRAFANA_PORT')
+GF_SERVER_HTTP_PORT = env('GF_SERVER_HTTP_PORT')
 
 REST_REGISTRATION = {
     'REGISTER_VERIFICATION_ENABLED': False,
