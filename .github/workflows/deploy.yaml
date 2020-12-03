@@ -20,7 +20,7 @@ jobs:
         run: heroku container:login -v
 
       - name: Build image
-        run: docker build --target=prod --tag=registry.heroku.com/${{ secrets.HEROKU_APP }}/web .
+        run: docker build --target=base --tag=registry.heroku.com/${{ secrets.HEROKU_APP }}/web .
 
       - name: Push image
         run: docker push registry.heroku.com/${{ secrets.HEROKU_APP }}/web
