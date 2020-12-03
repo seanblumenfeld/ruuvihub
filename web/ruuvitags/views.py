@@ -1,14 +1,16 @@
 from django.utils.dateparse import parse_datetime
-from rest_framework.generics import CreateAPIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from web.ruuvitags.models import Event, Sensor, Location
-from web.ruuvitags.serializers import EventSerializer, SensorSerializer, LocationSerializer, \
+from web.ruuvitags.serializers import (
+    EventSerializer, SensorSerializer, LocationSerializer,
     BroadcastSerializer
+)
 
 
-class BroadcastCreateView(CreateAPIView):
-    """AIs for a Ruuvitag broadcast data event."""
+class BroadcastViewSet(mixins.CreateModelMixin, GenericViewSet):
+    """API for a Ruuvitag broadcast data event."""
     queryset = Event.objects.all()
     serializer_class = BroadcastSerializer
 

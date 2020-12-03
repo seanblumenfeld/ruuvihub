@@ -1,13 +1,13 @@
-from django.conf.urls import url
 from rest_framework.routers import SimpleRouter
 
-from web.ruuvitags.views import EventViewSet, SensorViewSet, LocationViewSet, BroadcastCreateView
+from web.ruuvitags.views import (
+    EventViewSet, SensorViewSet, LocationViewSet, BroadcastViewSet
+)
 
 router = SimpleRouter()
 router.register('events', EventViewSet, basename='events')
 router.register('locations', LocationViewSet, basename='locations')
 router.register('sensors', SensorViewSet, basename='sensors')
+router.register('broadcasts', BroadcastViewSet, basename='broadcasts')
 
-urlpatterns = [
-    url(r'^broadcasts/$', BroadcastCreateView.as_view(), name='broadcasts'),
-] + router.urls
+urlpatterns = router.urls
