@@ -25,11 +25,12 @@ api_router = routers.DefaultRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('rest_registration.api.urls', namespace='rest_registration')),
+    path('dashboards/', include('web.dashboards.urls')),
 
     path('api/', include(api_router.urls)),
     path('api/ruuvitags/', include('web.ruuvitags.urls')),
     path('api/users/', include('web.users.urls')),
-    path('api/dashboard/', include('web.dashboard.urls')),
+    path('api/dashboards/', include('web.dashboards.api_urls')),
 
     path('api/specs/', get_schema_view(title='RuuviHub', version='0.0.1'), name='api-specs'),
     # path('api/auth/', include('rest_framework.urls')),
