@@ -1,8 +1,9 @@
 import factory
 from django.utils import timezone
+from factory.django import DjangoModelFactory
 
 
-class BaseMetaFactory(factory.DjangoModelFactory):
+class BaseMetaFactory(DjangoModelFactory):
     class Meta:
         abstract = True
 
