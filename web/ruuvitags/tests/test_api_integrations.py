@@ -28,7 +28,7 @@ class CombinedApiTests(BaseTestCase):
         # When sensor-1 is moved to location-2
         location_2 = LocationFactory(name='location-2', sensor=sensor_1)
         # And then a new broadcast is made
-        response = self.client.post(path=reverse('broadcasts'), data=DATA_FORMAT_5_EXAMPLE)
+        response = self.client.post(path=reverse('broadcasts-list'), data=DATA_FORMAT_5_EXAMPLE)
 
         # Then the new broadcast is attributed to location-2
         self.assertResponse201(response, data_contains={'location': location_2.id})

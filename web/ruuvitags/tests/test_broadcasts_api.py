@@ -13,7 +13,7 @@ class BroadcastTests(BaseTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.path = reverse('broadcasts')
+        cls.path = reverse('broadcasts-list')
 
     def setUp(self):
         super().setUp()
@@ -59,5 +59,5 @@ class BroadcastTests(BaseTestCase):
 
     def test_cant_list_events(self):
         EventFactory.create_batch(size=4)
-        response = self.client.get(path=reverse('broadcasts'))
+        response = self.client.get(path=reverse('broadcasts-list'))
         self.assertResponse(response, 405)
