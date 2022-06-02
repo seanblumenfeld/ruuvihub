@@ -14,5 +14,3 @@ https://github.com/ruuvi/ruuvi-sensor-protocols/blob/master/broadcast_formats.md
   - [ ] Task: update watch_sensor_events service to use https
 - [ ] Feature: Integrate raspberry Pi temperature monitor using https://www.raspberrypi.org/forums/viewtopic.php?t=50373
 - [ ] Feature: configure sensor recording frequency per sensor
-
-    
