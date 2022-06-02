@@ -5,7 +5,7 @@ ruuvitag-sensor==1.1.0
 bleson==0.1.6
 django-constance==2.8.0
 django-environ==0.8.1
-django-filter==2.4.0
+django-filter==21.1
 django-picklefield==3.0.1
 structlog==21.5.0
 simple-ruuvitag==0.0.6
