@@ -7,6 +7,10 @@ on:
   # Run tests for all PRs.
   pull_request:
 
+# Set the access for individual scopes, or use permissions: write-all
+permissions:
+  packages: write
+
 env:
   ENV: test
 
