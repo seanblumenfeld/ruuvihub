@@ -1,10 +1,10 @@
 Django==3.1.7
 djangorestframework==3.12.2
-psycopg2==2.8.6
+psycopg2==2.9.3
 ruuvitag-sensor==1.1.0
 bleson==0.1.6
 django-constance==2.8.0
-django-environ==0.4.5
+django-environ==0.8.1
 django-filter==2.4.0
 django-picklefield==3.0.1
 structlog==21.5.0
