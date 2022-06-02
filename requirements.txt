@@ -7,7 +7,7 @@ django-constance==2.8.0
 django-environ==0.4.5
 django-filter==2.4.0
 django-picklefield==3.0.1
-structlog==21.1.0
+structlog==21.5.0
 simple-ruuvitag==0.0.6
 grafana-api==1.0.3
 uwsgi==2.0.19.1
