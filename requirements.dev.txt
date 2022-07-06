@@ -10,5 +10,5 @@ pytest==7.1.2
 requests-mock==1.9.3
 requests==2.27.1
 schemathesis
-testfixtures==6.18.5
+testfixtures==7.0.0
 uritemplate==4.1.1
