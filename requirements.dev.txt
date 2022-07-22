@@ -5,10 +5,10 @@ factory-boy==3.2.1
 flake8==4.0.1
 ipdb
 pytest-django==4.5.2
-pytest-sugar==0.9.4
+pytest-sugar==0.9.5
 pytest==7.1.2
 requests-mock==1.9.3
-requests==2.27.1
+requests==2.28.1
 schemathesis
-testfixtures==6.18.5
+testfixtures==7.0.0
 uritemplate==4.1.1
