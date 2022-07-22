@@ -8,7 +8,7 @@ django-environ==0.9.0
 django-filter==21.1
 django-picklefield==3.0.1
 structlog==22.1.0
-simple-ruuvitag==0.0.6
+simple-ruuvitag==0.0.8
 grafana-api==1.0.3
 uwsgi==2.0.20
 whitenoise==6.2.0
