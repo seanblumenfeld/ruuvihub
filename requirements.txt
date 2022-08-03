@@ -1,7 +1,7 @@
 Django==3.1.7
 djangorestframework==3.13.1
 psycopg2==2.9.3
-ruuvitag-sensor==1.2.1
+ruuvitag-sensor==2.0.0
 bleson==0.1.6
 django-constance==2.9.0
 django-environ==0.9.0
