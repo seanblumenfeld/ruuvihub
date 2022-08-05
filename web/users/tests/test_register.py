@@ -28,4 +28,4 @@ class UserRegistrationTests(BaseTestCase):
             }
         )
         self.assertResponse400(response)
-        self.assertEqual(response.data['password'][0].code, 'invalid')
+        self.assertEqual(response.data['password'][0].code, 'password_too_short')

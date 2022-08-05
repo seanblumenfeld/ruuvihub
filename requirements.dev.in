@@ -1,0 +1,14 @@
+-r requirements.in
+PyYAML
+django-extensions
+factory-boy
+flake8
+ipdb
+pytest
+pytest-cov
+pytest-django
+pytest-sugar
+requests
+requests-mock
+testfixtures
+uritemplate
