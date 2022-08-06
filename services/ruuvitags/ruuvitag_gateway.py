@@ -102,4 +102,4 @@ if __name__ == '__main__':
             ruuvi_client.rescan()
             sleep(60 * 10)  # 10 minutes
     else:
-        RuuviTagSensor.get_datas(ruuvitag_sensor_watch_sensor_events)
+        RuuviTagSensor.get_data(ruuvitag_sensor_watch_sensor_events)
