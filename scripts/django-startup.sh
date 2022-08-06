@@ -42,7 +42,7 @@ case ${ENV} in
   ;;
   *)
     collect_static
-    uwsgi --http :${PORT} --module web.wsgi
+    uwsgi --http-socket :${PORT} --module web.wsgi
   ;;
 esac
 
