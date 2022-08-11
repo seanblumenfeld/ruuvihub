@@ -18,7 +18,7 @@ ENV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
 def obtain_tokens():
     logger.info('START: obtain_tokens')
     response = requests.post(
-        url=f"{os.getenv('PROTOCOL')}://{os.getenv('HOST')}:{os.getenv('PORT')}/api/token/obtain/",
+        url=f"{os.getenv('PROTOCOL')}://{os.getenv('HOST')}/api/token/obtain/",
         json={
             'username': os.environ['USERNAME'],
             'password': os.environ['PASSWORD'],

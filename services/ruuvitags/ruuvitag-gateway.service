@@ -3,9 +3,8 @@ Description=Watch Sensor Events Service
 After=multi-user.target
 
 [Service]
-Environment=PYTHONUNBUFFERED=1
-ExecStart=~/.venv/bin/python ~./ruuvitag_gateway.py
-Restart=on-failure
+ExecStart=/home/pi/.venv/bin/python /home/pi/ruuvitag_gateway.py
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
