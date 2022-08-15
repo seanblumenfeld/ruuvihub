@@ -22,7 +22,7 @@ django==3.2.15
     #   django-rest-registration
     #   djangorestframework
     #   djangorestframework-simplejwt
-django-admin-rangefilter==0.8.6
+django-admin-rangefilter==0.8.7
     # via -r requirements.in
 django-constance==2.9.0
     # via -r requirements.in
