@@ -116,7 +116,7 @@ pyjwt==2.4.0
     # via djangorestframework-simplejwt
 pyparsing==3.0.9
     # via packaging
-pytest==7.1.2
+pytest==7.1.3
     # via
     #   -r requirements.dev.in
     #   pytest-cov
