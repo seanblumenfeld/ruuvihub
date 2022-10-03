@@ -39,7 +39,7 @@ djangorestframework==3.13.1
     #   -r requirements.in
     #   django-rest-registration
     #   djangorestframework-simplejwt
-djangorestframework-simplejwt==5.2.0
+djangorestframework-simplejwt==5.2.1
     # via -r requirements.in
 grafana-api==1.0.3
     # via -r requirements.in
