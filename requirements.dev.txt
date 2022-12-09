@@ -16,7 +16,7 @@ bleson==0.1.8
     # via
     #   -r requirements.in
     #   simple-ruuvitag
-certifi==2022.6.15
+certifi==2022.12.7
     # via requests
 charset-normalizer==2.0.12
     # via requests
@@ -166,9 +166,7 @@ testfixtures==7.0.0
 toml==0.10.2
     # via ipdb
 tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
+    # via pytest
 traitlets==5.3.0
     # via
     #   ipython

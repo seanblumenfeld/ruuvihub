@@ -10,7 +10,7 @@ bleson==0.1.8
     # via
     #   -r requirements.in
     #   simple-ruuvitag
-certifi==2022.6.15
+certifi==2022.12.7
     # via requests
 charset-normalizer==2.1.0
     # via requests
