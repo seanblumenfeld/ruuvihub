@@ -14,7 +14,7 @@ certifi==2022.6.15
     # via requests
 charset-normalizer==2.1.0
     # via requests
-django==3.2.15
+django==4.1.6
     # via
     #   -r requirements.in
     #   django-filter
@@ -54,9 +54,7 @@ ptyprocess==0.7.0
 pyjwt==2.4.0
     # via djangorestframework-simplejwt
 pytz==2022.1
-    # via
-    #   django
-    #   djangorestframework
+    # via djangorestframework
 reactivex==4.0.4
     # via ruuvitag-sensor
 requests==2.28.1
