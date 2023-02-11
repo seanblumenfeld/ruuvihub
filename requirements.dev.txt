@@ -74,7 +74,7 @@ iniconfig==1.1.1
     # via pytest
 ipdb==0.13.9
     # via -r requirements.dev.in
-ipython==8.4.0
+ipython==8.10.0
     # via ipdb
 jedi==0.18.1
     # via ipython
@@ -166,9 +166,7 @@ testfixtures==7.0.0
 toml==0.10.2
     # via ipdb
 tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
+    # via pytest
 traitlets==5.3.0
     # via
     #   ipython
